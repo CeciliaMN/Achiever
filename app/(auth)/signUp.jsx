@@ -1,4 +1,4 @@
-import { Text, View, Image, useColorScheme } from "react-native";
+import { Text, View, Image, useColorScheme, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Link } from "expo-router";
 import UseAppStyles from "../../components/UseAppStyles";
 import ThemedView from "../../components/ThemedView";
@@ -7,32 +7,60 @@ import Spacer from "../../components/Spacer";
 import ThemedText from "../../components/ThemedText";
 import Button from "../../components/Button";
 import ThemedLink from "../../components/ThemedLink";
+import ThemedTextInput from "../../components/ThemedTextInput";
+import { useState } from "react";
 
 const SignUp = () => {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     const styles = UseAppStyles();
     const handleSubmit = () => {
         console.log('Sign Up Form Submitted.');
+        console.log(username);
+        console.log(email);
+        console.log(password);
     };
 
     return (
-        <ThemedView>
-            <ThemedText title={true} >Create a New Account</ThemedText>
-            <Spacer height={15} />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ThemedView>
+                <ThemedText title={true} >Create a New Account</ThemedText>
+                <Spacer height={20} />
 
-            <ThemedCard>
-                <ThemedText>Instructions to sign up.</ThemedText>
-            </ThemedCard>
-            <Spacer height={20} />
+                <ThemedTextInput
+                    placeholder='Username'
+                    onChangeText={setUsername}
+                    value={username}
+                />
+                <Spacer height={15} />
 
-            <Button text={'Sign Up'} onPress={handleSubmit} />
-            <Spacer height={15} />
+                <ThemedTextInput
+                    placeholder='Email'
+                    keyboardType='email-address'
+                    onChangeText={setEmail}
+                    value={email}
+                />
+                <Spacer height={15} />
+
+                <ThemedTextInput
+                    placeholder='Password'
+                    onChangeText={setPassword}
+                    value={password}
+                    secureTextEntry
+                />
+                <Spacer height={15} />
+
+                <Button text={'Sign Up'} onPress={handleSubmit} />
+                <Spacer height={15} />
 
 
-            <ThemedLink href='/signIn'>Already have an account?</ThemedLink>
-            <ThemedLink href='/'>Back to Home</ThemedLink>
+                <ThemedLink href='/signIn'>Already have an account?</ThemedLink>
+                <ThemedLink href='/'>Back to Home</ThemedLink>
 
-        </ThemedView>
-
+            </ThemedView>
+        </TouchableWithoutFeedback>
     )
 };
 

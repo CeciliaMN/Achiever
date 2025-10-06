@@ -58,6 +58,14 @@ export default function UseAppStyles() {
         tabBar: {
             backgroundColor: theme.navBackground,
             paddingTop: 3
+        },
+
+        textInput: {
+            backgroundColor: theme.uiBackground,
+            color: theme.text,
+            padding: 20,
+            borderRadius: 6,
+            width: '80%'
         }
     });
 }

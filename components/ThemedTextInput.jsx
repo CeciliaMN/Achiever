@@ -1,19 +1,20 @@
-import { View, useColorScheme } from "react-native";
+import { TextInput, View, useColorScheme } from "react-native";
 import { Colors } from "../constants/Colors";
 import UseAppStyles from "./UseAppStyles";
 
-export default function ThemedCard({ style, ...props }) {
+export default function ThemedTextInput({ style, ...props }) {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
 
     return (
-        <View 
+        <TextInput 
+            placeholderTextColor={ theme.placeholder }
             style={[
                 { backgroundColor: theme.uiBackground },
-                styles.card,
+                styles.textInput,
                 style
-            ]}
+            ]}            
             { ...props }
         />
 
