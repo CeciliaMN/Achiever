@@ -6,6 +6,7 @@ import ThemedCard from "../../components/ThemedCard";
 import Spacer from "../../components/Spacer";
 import ThemedText from "../../components/ThemedText";
 import Button from "../../components/Button";
+import ThemedLink from "../../components/ThemedLink";
 
 const SignIn = () => {
     const styles = UseAppStyles();
@@ -26,9 +27,8 @@ const SignIn = () => {
                 <Button text={'Sign In'} onPress={handleSubmit} />
                 <Spacer height={15} />
 
-                <Link href='/signUp' style={ styles.link } >Sign Up</Link>
-
-                <Link href='/' style={ styles.link } >Back to Home</Link>
+                <ThemedLink href='/signUp'>Sign Up</ThemedLink>
+                <ThemedLink href='/'>Back to Home</ThemedLink>
         </ThemedView>
 
     )

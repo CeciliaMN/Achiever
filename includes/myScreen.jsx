@@ -4,11 +4,9 @@ import { Colors } from "../constants/Colors";
 import ThemedText from "../components/ThemedText";
 import UseAppStyles from "../components/UseAppStyles";
 
-const MyScreen = () => {
-    const colorScheme = useColorScheme();
-    const theme = Colors[colorScheme] ?? Colors.light;
+export default function MyScreen() {
     const styles = UseAppStyles();
-    
+
     return (
         <ThemedView>
                 <ThemedText>Base Screen</ThemedText>                
@@ -17,5 +15,3 @@ const MyScreen = () => {
 
     )
 };
-
-export default MyScreen;

@@ -51,7 +51,7 @@ export default function UseAppStyles() {
         },
 
         logo: {
-            height: 80,
+            height: 60,
             resizeMode: 'contain'
         }
     });

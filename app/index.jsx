@@ -5,25 +5,25 @@ import ThemedView from "../components/ThemedView";
 import UseAppStyles from "../components/UseAppStyles";
 import ThemedText from "../components/ThemedText";
 import Spacer from "../components/Spacer";
+import ThemedLink from "../components/ThemedLink";
 
-const Home = () => {
+export default function Home() {
     const styles = UseAppStyles();
 
     return (
         <ThemedView>
-            <Image source={ Logo } style={ styles.logo }/>
+            <Image source={Logo} style={styles.logo} />
 
             <View>
-                <ThemedText title={ true }>Achiever</ThemedText>
+                <ThemedText title={true}>Achiever</ThemedText>
                 <Spacer height={5} />
 
-                <ThemedText>Efficient Finances Management</ThemedText>
-            </View>      
-            
+                <ThemedText>Efficient Financial Management</ThemedText>
+            </View>
+
             <Spacer />
-            <Link href='/signIn' style={ styles.link } >Sign In</Link>
+            <ThemedLink href='/signIn'>Sign In</ThemedLink>
+            <ThemedLink href='/tracking'>Continue as Guest</ThemedLink>
         </ThemedView>
     )
 };
-
-export default Home;
