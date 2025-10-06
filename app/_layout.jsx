@@ -1,6 +1,5 @@
 import { Text, View, Image, useColorScheme } from "react-native";
 import { Link, Stack } from "expo-router";
-import styles from './tools/styles';
 import { Colors } from "../constants/Colors";
 
 const RootLayout = () => {
@@ -10,10 +9,10 @@ const RootLayout = () => {
     return (
         <Stack screenOptions={{
             headerStyle: { backgroundColor: theme.navBackground },
-            headerTintColor: theme.title
+            headerTintColor: theme.title,
+            headerShown: false 
         }}>
-            <Stack.Screen name="index" options={{ title: 'Home', headerShown: false }} />
-            <Stack.Screen name="signIn" options={{ title: 'Sign In' }} />
+            <Stack.Screen name="index" options={{ title: 'Home'}} />
         </Stack>
     )
 };
