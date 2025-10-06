@@ -15,7 +15,9 @@ const Home = () => {
 
             <View>
                 <ThemedText title={ true }>Achiever</ThemedText>
-                <ThemedText>Efficient finances management</ThemedText>
+                <Spacer height={5} />
+
+                <ThemedText>Efficient Finances Management</ThemedText>
             </View>      
             
             <Spacer />

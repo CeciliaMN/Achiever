@@ -41,6 +41,15 @@ export default function UseAppStyles() {
             color: theme.text
         },
 
+        button: {
+            padding: 15,
+            borderRadius: 5
+        },
+
+        btnPressed: {
+            opacity: 0.8
+        },
+
         logo: {
             height: 80,
             resizeMode: 'contain'

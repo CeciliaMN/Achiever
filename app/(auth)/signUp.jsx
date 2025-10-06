@@ -5,23 +5,28 @@ import ThemedView from "../../components/ThemedView";
 import ThemedCard from "../../components/ThemedCard";
 import Spacer from "../../components/Spacer";
 import ThemedText from "../../components/ThemedText";
+import Button from "../../components/Button";
 
 const SignUp = () => {
     const styles = UseAppStyles();
+    const handleSubmit = () => {
+        console.log('Sign Up Form Submitted.');
+    };
     
     return (
         <ThemedView>
-                <ThemedText title={ true } >Sign Up</ThemedText>  
+                <ThemedText title={ true } >Create a New Account</ThemedText>  
+                <Spacer height={ 15 }/>
 
-                <Spacer height={ 20 }/>
                 <ThemedCard>
                     <ThemedText>Instructions to sign up.</ThemedText>
                 </ThemedCard>
-                <Spacer />
-
-                <Link href='/signIn' style={ styles.link } >I already have an account</Link>
+                <Spacer height={20}/>
                 
-                <Spacer />
+                <Button text={'Sign Up'} onPress={handleSubmit} />
+                <Spacer height={15} />
+
+                <Link href='/signIn' style={ styles.link } >Already have an account?</Link>
 
                 <Link href='/' style={ styles.link } >Back to Home</Link>
         </ThemedView>
