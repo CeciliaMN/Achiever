@@ -2,20 +2,19 @@ import { useColorScheme } from "react-native";
 import { Tabs } from "expo-router";
 import { Colors } from "../../constants/Colors";
 import { Ionicons } from '@expo/vector-icons'
+import UseAppStyles from "../../components/UseAppStyles";
 
 export default function DashboardLayout() {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
+    const styles = UseAppStyles();
 
     return (
         <Tabs screenOptions={{
             headerStyle: { backgroundColor: theme.navBackground },
             headerTintColor: theme.title,
             headerShown: false,
-            tabBarStyle: {
-                backgroundColor: theme.navBackground,
-                paddingTop: 3
-            },
+            tabBarStyle: styles.tabBar,
             tabBarActiveTintColor: theme.iconColorFocused,
             tabBarInactiveTintColor: theme.iconColor
         }}>

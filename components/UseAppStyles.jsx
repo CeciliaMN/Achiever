@@ -53,6 +53,12 @@ export default function UseAppStyles() {
         logo: {
             height: 60,
             resizeMode: 'contain'
+        },
+
+        tabBar: {
+            backgroundColor: theme.navBackground,
+            paddingTop: 3,
+            height: 105
         }
     });
 }

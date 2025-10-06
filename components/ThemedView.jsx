@@ -1,6 +1,7 @@
 import { View, useColorScheme } from "react-native";
 import { Colors } from "../constants/Colors";
 import UseAppStyles from "./UseAppStyles";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ThemedView = ({ style, ...props }) => {
     const colorScheme = useColorScheme();
@@ -8,7 +9,7 @@ const ThemedView = ({ style, ...props }) => {
     const styles = UseAppStyles();
 
     return (
-        <View 
+        <SafeAreaView 
             style={[
                 { backgroundColor: theme.background },
                 styles.container,
