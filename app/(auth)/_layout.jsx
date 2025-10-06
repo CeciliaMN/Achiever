@@ -9,9 +9,9 @@ const AuthLayout = () => {
     return (
         <Stack screenOptions={{
             headerStyle: { backgroundColor: theme.navBackground },
-            headerTintColor: theme.title
+            headerTintColor: theme.title, 
+            headerShown: false 
         }}>
-            <Stack.Screen name='(auth)' options={{ title: '', headerShown: false }} />
             <Stack.Screen name="signIn" options={{ title: 'Sign In' }} />
         </Stack>
     )
