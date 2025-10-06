@@ -1,10 +1,15 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
+import { Colors } from "../constants/Colors";
+
+const colorScheme = useColorScheme();
+const theme = Colors[colorScheme] ?? Colors.light;
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: theme.background
     },
 
     title1: {

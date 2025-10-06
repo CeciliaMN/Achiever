@@ -1,11 +1,14 @@
 import { Text, View, Image } from "react-native";
 import { Link } from "expo-router";
-import styles from './tools/styles';
 import Logo from '../assets/providential_logo.png';
+import ThemedView from "../components/ThemedView";
+import UseAppStyles from "../components/UseAppStyles";
 
 const Home = () => {
+    const styles = UseAppStyles();
+
     return (
-        <View style={ styles.container }>
+        <ThemedView>
             <Image source={ Logo } style={ styles.logo }/>
 
             <View>
@@ -13,8 +16,8 @@ const Home = () => {
                 <Text style={ styles.normalText }>Efficient finances management</Text>
             </View>      
             
-            <Link href='/connexion' style={ styles.link } >Connexion</Link>
-        </View>
+            <Link href='/signIn' style={ styles.link } >Sign In</Link>
+        </ThemedView>
     )
 };
 
