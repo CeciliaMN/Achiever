@@ -57,8 +57,7 @@ export default function UseAppStyles() {
 
         tabBar: {
             backgroundColor: theme.navBackground,
-            paddingTop: 3,
-            height: 105
+            paddingTop: 3
         }
     });
 }

@@ -9,7 +9,7 @@ export default function Planning() {
     const styles = UseAppStyles();
 
     return (
-        <ThemedView>
+        <ThemedView safe={ true }>
                 <ThemedText title={ true }>Planning</ThemedText>
         </ThemedView>
     )

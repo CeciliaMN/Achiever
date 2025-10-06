@@ -9,7 +9,7 @@ export default function Budgeting() {
     const styles = UseAppStyles();
 
     return (
-        <ThemedView>
+        <ThemedView safe={ true }>
                 <ThemedText title={ true }>Budgeting</ThemedText>
         </ThemedView>
     )

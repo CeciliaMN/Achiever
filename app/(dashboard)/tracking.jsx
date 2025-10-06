@@ -9,7 +9,7 @@ export default function Tracking() {
     const styles = UseAppStyles();
 
     return (
-        <ThemedView>
+        <ThemedView safe={ true }>
                 <ThemedText title={ true }>Tracking</ThemedText>
         </ThemedView>
     )
