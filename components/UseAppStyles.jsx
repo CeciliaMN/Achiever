@@ -28,7 +28,7 @@ export default function UseAppStyles() {
         },
 
         card: {
-            backgroundColor: '#eee',
+            color: theme.text,
             padding: 20,
             borderRadius: 5,
             boxShadow: '4px 4px rbga(0,0,0,0.1)'
@@ -42,7 +42,6 @@ export default function UseAppStyles() {
         },
 
         logo: {
-            marginVertical: 5,
             height: 80,
             resizeMode: 'contain'
         }

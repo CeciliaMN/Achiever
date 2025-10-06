@@ -1,9 +1,8 @@
-import { Text, View, Image, useColorScheme } from "react-native";
-import { Link } from "expo-router";
+import { View, useColorScheme } from "react-native";
 import { Colors } from "../constants/Colors";
 import UseAppStyles from "./UseAppStyles";
 
-const ThemedView = ({ customStyle, ...props }) => {
+const ThemedCard = ({ style, ...props }) => {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
@@ -11,9 +10,9 @@ const ThemedView = ({ customStyle, ...props }) => {
     return (
         <View 
             style={[
-                { backgroundColor: theme.background },
-                styles.container,
-                customStyle
+                { backgroundColor: theme.uiBackground },
+                styles.card,
+                style
             ]}
             { ...props }
         />
@@ -21,4 +20,4 @@ const ThemedView = ({ customStyle, ...props }) => {
     )
 };
 
-export default ThemedView;
+export default ThemedCard;
