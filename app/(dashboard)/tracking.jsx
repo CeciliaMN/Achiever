@@ -7,25 +7,22 @@ import Spacer from "../../components/Spacer";
 import Button from "../../components/Button";
 import { useUser } from "../../hooks/useUser";
 import ThemedLink from "../../components/ThemedLink";
+import { useEffect } from "react";
 
 export default function Tracking() {
     const styles = UseAppStyles();
 
-    const { user, signOut } = useUser();
-
-    const mySignOut = () => {
-        signOut();
-        console.log('user after signOUt: ', user);
-    }
+    const { user, signOut, authChecked } = useUser();
 
     return (
-        <ThemedView safe={ true }>
-                <ThemedText title={ true }>Tracking</ThemedText>
-                <Spacer height={30} />
+        <ThemedView safe={true}>
+            <ThemedText>Hello{ authChecked && user!=null ? ` ${user.name}` : ''} !</ThemedText>
+            <ThemedText title={true}>Tracking</ThemedText>
+            <Spacer height={30} />
 
-                <Button onPress={ mySignOut } text='Sign Out' />
+            <Button onPress={signOut} text='Sign Out' />
 
-                <ThemedLink href='/'>Back to Home</ThemedLink>
+            <ThemedLink href='/'>Back to Home</ThemedLink>
         </ThemedView>
     )
 };

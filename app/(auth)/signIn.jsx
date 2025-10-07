@@ -53,6 +53,7 @@ export default function SignIn() {
 
                 <ThemedLink href='/signUp'>Sign Up</ThemedLink>
                 <ThemedLink href='/'>Back to Home</ThemedLink>
+                <ThemedLink href='/tracking'>Tracking</ThemedLink>
             </ThemedView>
         </TouchableWithoutFeedback>
     )
