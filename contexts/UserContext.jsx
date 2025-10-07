@@ -32,6 +32,8 @@ export function UserProvider({ children }) {
     }
 
     async function signOut() {
+        await account.deleteSession('current');
+        console.log('signout done');
     }
 
     return (
