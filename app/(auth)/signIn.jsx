@@ -9,17 +9,21 @@ import Button from "../../components/Button";
 import ThemedLink from "../../components/ThemedLink";
 import ThemedTextInput from "../../components/ThemedTextInput";
 import { useState } from "react";
+import { useUser } from "../../hooks/useUser";
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const { user, signIn } = useUser();
 
     const styles = UseAppStyles();
-    const handleSubmit = () => {
+
+    const handleSubmit = async () => {
         console.log('Login Form Submitted.');
-        console.log(email);
-        console.log(password);
+        console.log('user before sign in: ', user);
+        await signIn(email, password);
+        console.log('user after sign in: ', user);
     };
 
     return (

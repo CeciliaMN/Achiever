@@ -9,18 +9,22 @@ import Button from "../../components/Button";
 import ThemedLink from "../../components/ThemedLink";
 import ThemedTextInput from "../../components/ThemedTextInput";
 import { useState } from "react";
+import { useUser } from "../../hooks/useUser";
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const { user, signUp } = useUser();
+
     const styles = UseAppStyles();
-    const handleSubmit = () => {
+
+    const handleSubmit = async () => {
         console.log('Sign Up Form Submitted.');
-        console.log(username);
-        console.log(email);
-        console.log(password);
+        console.log('user before sign up: ', user);
+        await signUp(username, email, password);
+        console.log('user after sign up: ', user);
     };
 
     return (
