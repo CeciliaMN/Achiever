@@ -44,8 +44,8 @@ export function UserProvider({ children }) {
             console.log('initial user value: ', response);
         }
         catch(error) {
+            console.log(`initial user value failed; ${ error.message }; `, user);
             setUser(null);
-            console.log('initial user value failed.');
         }
         finally {
             setAuthChecked(true);
