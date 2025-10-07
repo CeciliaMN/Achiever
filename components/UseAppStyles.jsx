@@ -66,6 +66,10 @@ export default function UseAppStyles() {
             padding: 20,
             borderRadius: 6,
             width: '80%'
+        },
+
+        loader: {
+            
         }
     });
 }

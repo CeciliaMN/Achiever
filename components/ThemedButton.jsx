@@ -1,10 +1,10 @@
 import { Text, View, Image, useColorScheme, Pressable } from "react-native";
 import { Link } from "expo-router";
 import { Colors } from "../constants/Colors";
-import ThemedText from "../components/ThemedText";
+import ThemedText from "./ThemedText";
 import UseAppStyles from "./UseAppStyles";
 
-const Button = ({ style, text, onPress, ...props}) => {
+const ThemedButton = ({ style, text, onPress, ...props}) => {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
@@ -25,4 +25,4 @@ const Button = ({ style, text, onPress, ...props}) => {
     )
 };
 
-export default Button;
+export default ThemedButton;

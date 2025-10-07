@@ -5,7 +5,7 @@ import ThemedView from "../../components/ThemedView";
 import ThemedCard from "../../components/ThemedCard";
 import Spacer from "../../components/Spacer";
 import ThemedText from "../../components/ThemedText";
-import Button from "../../components/Button";
+import ThemedButton from "../../components/ThemedButton";
 import ThemedLink from "../../components/ThemedLink";
 import ThemedTextInput from "../../components/ThemedTextInput";
 import { useState } from "react";
@@ -48,7 +48,7 @@ export default function SignIn() {
                 />
                 <Spacer height={15} />
 
-                <Button text={'Sign In'} onPress={handleSubmit} />
+                <ThemedButton text={'Sign In'} onPress={handleSubmit} />
                 <Spacer height={15} />
 
                 <ThemedLink href='/signUp'>Sign Up</ThemedLink>
