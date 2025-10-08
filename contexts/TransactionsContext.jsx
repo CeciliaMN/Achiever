@@ -24,7 +24,6 @@ export function TransactionsProvider({ children }) {
             );
 
             setTransactions(transactions);
-            console.log('Transactions fetched: ', transactions);
         }
         catch (error) {
             console.error(error.message);

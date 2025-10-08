@@ -68,8 +68,8 @@ export default function UseAppStyles() {
             width: '80%'
         },
 
-        loader: {
-            
+        listItem: {
+            backgroundColor: theme.uiBackground
         }
     });
 }
