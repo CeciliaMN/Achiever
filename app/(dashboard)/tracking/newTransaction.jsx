@@ -12,6 +12,7 @@ import ThemedTextInput from "../../../components/ThemedTextInput";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { Colors } from "../../../constants/Colors";
+import { useTransactions } from "../../../hooks/useTransactions";
 
 export default function NewTransaction() {
     const colorScheme = useColorScheme();
@@ -24,20 +25,42 @@ export default function NewTransaction() {
 
     const [date, setDate] = useState(new Date());
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState(0.0);
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    function add() {
+    const { addTransaction } = useTransactions();
+
+    function resetFields() {
+        setAmount(0.0);
+        setDescription('');
+        setCategory('');
+    }
+
+    async function add() {
         // TODO: add transaction to database
         // TODO: clear fields
         // TODO: success message 
+        if (!amount || !description.trim() || !category.trim()) {
+            return;
+        }
+        
+        setLoading(true);
+        await addTransaction({date, amount, description, category});
+        resetFields();
+
+        router.replace('/tracking');
+
+        setLoading(false);
     }
 
+    /*
     function cancel() {
         // TODO: clear fields
         router.replace('/tracking');
     }
+    */
 
     function showDatePicker() {
         setDatePickerVisibility(true)
@@ -70,7 +93,7 @@ export default function NewTransaction() {
                             columnGap: '35%',
                             flexDirection: 'row',
                             alignItems: 'center',
-                            justifyContent:'center'
+                            justifyContent: 'center'
                         }}>
                         <ThemedButton
                             text='Choose Date'
@@ -115,18 +138,22 @@ export default function NewTransaction() {
                     />
                     <Spacer height={15} />
                     <View
-                    style={{
-                        flex: .3,
-                        flexDirection: 'row',
-                        columnGap: 30,
-                        alignItems: 'center'
-                    }}>
-                    <ThemedButton onPress={add} text='Add' />
-                    <ThemedButton onPress={cancel} text='Cancel' />
-                </View>
+                        style={{
+                            flex: .3,
+                            flexDirection: 'row',
+                            columnGap: 30,
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                        <ThemedButton onPress={add} 
+                            text={loading ? 'Saving...' : 'Add'} 
+                            disabled={loading} 
+                        />
+                        <ThemedLink href='/tracking'>Cancel</ThemedLink>
+                    </View>
                 </View>
 
-                
+
             </ThemedView>
         </TouchableWithoutFeedback >
     )
