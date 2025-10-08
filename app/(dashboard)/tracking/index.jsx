@@ -19,21 +19,47 @@ export default function Tracking() {
     }
 
     return (
-        <ThemedView safe={true}>
-            <ThemedView>
-                <ThemedText title={true}>Tracking</ThemedText>
-                <ThemedButton onPress={signOut} text='Sign Out' />
-            </ThemedView>
+        <ThemedView
+            safe={true}
+            style={{
+                justifyContent: 'flex-start'
+            }}>
+            <Spacer />
 
-            <ThemedText>Hello{ authChecked && user!=null ? ` ${user.name}` : ''} !</ThemedText>
+            <View
+                style={{
+                    flex: .1,
+                    flexDirection: 'row',
+                    columnGap: 30,
+                    alignItems: 'center'
+                }}>
+                <ThemedText
+                >
+                    Hello{authChecked && user != null ? ` ${user.name}` : ''} !
+                </ThemedText>
+
+                <ThemedButton onPress={signOut} text='Sign Out' />
+            </View>
+
+            <View
+                style={{
+                    flex: .8,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                }}>
+
+            </View>
+
+            <View
+                style={{
+                    flex: .1,
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                }}>
+            </View>
 
             <ThemedButton onPress={goToNew} text='New' />
-            
-            <Spacer height={30} />
-
-            <ThemedButton onPress={signOut} text='Sign Out' />
-
-            <ThemedLink href='/'>Back to Home</ThemedLink>
+            <Spacer height={12} />
         </ThemedView>
     )
 };

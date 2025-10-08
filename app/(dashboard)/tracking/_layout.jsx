@@ -24,7 +24,7 @@ export default function TrackingLayout() {
                             headerTintColor: theme.title,
                             headerShown: true
                         }}>
-                            <Stack.Screen name="index" options={{ title: 'Tracking' }} />
+                            <Stack.Screen name="index" options={{ title: 'Tracking', headerShown: false }} />
                             <Stack.Screen name="newTransaction" options={{ title: 'New Transaction' }} />
                         </Stack>
 
