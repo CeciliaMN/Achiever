@@ -4,18 +4,18 @@ import { ID, Permission, Query, Role } from "react-native-appwrite";
 import { useUser } from "../hooks/useUser";
 
 const DATABASE_ID = '68e691f7002d4c5bd0a7';
-const TABLE_ID = 'transactions';
+const TABLE_ID = 'budgets';
 
-export const TransactionsContext = createContext();
+export const BudgetsContext = createContext();
 
-export function TransactionsProvider({ children }) {
-    const [transactions, setTransactions] = useState([]);
+export function BudgetsProvider({ children }) {
+    const [budgets, setBudgets] = useState([]);
 
     const { user } = useUser();
 
-    async function getTransactions() {
+    async function getBudgets() {
         try {
-            const transactions = await databases.listDocuments(
+            const budgets = await databases.listDocuments(
                 DATABASE_ID,
                 TABLE_ID,
                 [
@@ -23,46 +23,46 @@ export function TransactionsProvider({ children }) {
                 ]
             );
 
-            setTransactions(transactions);
+            setBudgets(budgets);
         }
         catch (error) {
             console.error(error.message);
         }
     }
 
-    async function getTransactionById(id) {
+    async function getBudgetById(id) {
         try {
-            const transaction = await databases.getDocument(
+            const budget = await databases.getDocument(
                 DATABASE_ID,
                 TABLE_ID,
                 id
             );
 
-            return transaction;
+            return budget;
         }
         catch (error) {
             console.error(error.message);
         }
     }
 
-    async function addTransaction(data) {
+    async function addBudget(data) {
         try {
             console.log(data);
             const date = data.date;
-            const amount = parseFloat(data.amount);
-            const description = data.description;
             const category = data.category;
+            const theme = data.theme;
+            const amount = parseFloat(data.amount);
 
-            const newTransaction = await databases.createDocument(
+            const newbudget = await databases.createDocument(
                 DATABASE_ID,
                 TABLE_ID,
                 ID.unique(),
                 {
                     userId: user.$id,
                     date: date,
-                    amount: amount,
-                    description: description,
-                    category: category
+                    category: category,
+                    theme: theme,
+                    amount: amount
                 },
                 [
                     Permission.read(Role.user(user.$id)),
@@ -76,15 +76,15 @@ export function TransactionsProvider({ children }) {
         }
     }
 
-    async function deleteTransaction(id) {
+    async function deleteBudget(id) {
         try {
-            const transaction = await databases.deleteDocument(
+            const budget = await databases.deleteDocument(
                 DATABASE_ID,
                 TABLE_ID,
                 id
             );
 
-            return transaction;
+            return budget;
         }
         catch (error) {
             console.error(error.message);
@@ -93,21 +93,21 @@ export function TransactionsProvider({ children }) {
 
     useEffect(() => {
         if (user) {
-            getTransactions();
+            getBudgets();
         }
         else {
-            setTransactions([]);
+            setBudgets([]);
         }
-    }, [user, transactions])
+    }, [user, budgets])
 
     return (
-        <TransactionsContext.Provider
+        <BudgetsContext.Provider
             value={{
-                transactions, getTransactions, getTransactionById,
-                addTransaction, deleteTransaction
+                budgets, getBudgets, getBudgetById,
+                addBudget, deleteBudget
             }}
         >
             {children}
-        </TransactionsContext.Provider>
+        </BudgetsContext.Provider>
     )
 }

@@ -4,16 +4,19 @@ import { Colors } from "../constants/Colors";
 import ThemedText from "./ThemedText";
 import UseAppStyles from "./UseAppStyles";
 
-const ThemedButton = ({ style, text, onPress, ...props}) => {
+const ThemedButton = ({ style, text='Button', color, onPress, ...props}) => {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
+    if(!color) {
+        color = Colors.primary;
+    }
 
     return (
         <Pressable 
             onPress={ onPress }
             style={({ pressed }) => [
-                { backgroundColor: Colors.primary },
+                { backgroundColor: color },
                 styles.button,
                 pressed && styles.btnPressed,
                 style

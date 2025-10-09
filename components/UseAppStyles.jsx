@@ -84,7 +84,7 @@ export default function UseAppStyles() {
             width: '100%',
             backgroundColor: theme.uiBackground,
             padding: 10,
-            marginBottom: 5,
+            marginTop: 5,
             borderLeftColor: Colors.primary,
             borderLeftWidth: 4
         }
