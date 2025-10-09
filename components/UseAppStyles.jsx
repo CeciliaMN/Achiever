@@ -78,8 +78,10 @@ export default function UseAppStyles() {
             borderRadius: 6,
             width: '100%',
             backgroundColor: theme.uiBackground,
-            padding: 5,
-            marginBottom: 5
+            padding: 10,
+            marginBottom: 5,
+            borderLeftColor: Colors.primary,
+            borderLeftWidth: 6
         }
     });
 }

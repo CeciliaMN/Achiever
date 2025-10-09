@@ -20,7 +20,7 @@ export default function ThemedTransaction({ style, transaction, ...props }) {
             <View style={{
                 flex:1,
                 alignItems:'flex-start',
-                paddingStart:'8'
+                paddingStart:'10'
             }}>
                 <ThemedText title={true}>{transaction.description}</ThemedText>
                 <ThemedText style={{fontStyle:'italic'}}>{transaction.category}</ThemedText>
@@ -29,7 +29,7 @@ export default function ThemedTransaction({ style, transaction, ...props }) {
             <View style={{
                 flex:1,
                 alignItems:'flex-end',
-                paddingEnd:'8'
+                paddingEnd:'10'
             }}>
                 <ThemedText>{parseFloat(transaction.amount).toFixed(2)}$</ThemedText>
                 <ThemedText>{date}</ThemedText>
