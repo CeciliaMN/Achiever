@@ -86,7 +86,7 @@ export function TransactionsProvider({ children }) {
         else {
             setTransactions([]);
         }
-    }, [user])
+    }, [transactions])
 
     return (
         <TransactionsContext.Provider
@@ -98,5 +98,4 @@ export function TransactionsProvider({ children }) {
             {children}
         </TransactionsContext.Provider>
     )
-
 }

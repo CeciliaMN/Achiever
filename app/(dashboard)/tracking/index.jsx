@@ -10,6 +10,7 @@ import { useUser } from "../../../hooks/useUser";
 import ThemedLink from "../../../components/ThemedLink";
 import { useEffect, useState } from "react";
 import { useTransactions } from "../../../hooks/useTransactions";
+import ThemedTransaction from "../../../components/lists/ThemedTransaction";
 
 export default function Tracking() {
     const styles = UseAppStyles();
@@ -34,17 +35,17 @@ export default function Tracking() {
             style={{
                 justifyContent: 'flex-start'
             }}>
-            <Spacer />
+            <Spacer height={15} />
 
             <View
                 style={{
-                    flex: .1,
+                    flex: 0,
                     flexDirection: 'row',
                     columnGap: 30,
                     alignItems: 'center'
-                }}>
-                <ThemedText
-                >
+                }}
+            >
+                <ThemedText>
                     Hello{authChecked && user != null ? ` ${user.name}` : ''} !
                 </ThemedText>
 
@@ -53,22 +54,28 @@ export default function Tracking() {
 
             <View
                 style={{
-                    flex: .9
-                }}>
-                <ThemedText title={true}>Transactions</ThemedText>
+                    flex: 1,
+                    alignSelf: 'stretch',
+                    paddingHorizontal: 10
+                }}
+            >
+                <Spacer height={10} />
+
+                <ThemedText 
+                style={{
+                    flex: 0,
+                    alignSelf: 'flex-start',
+                    paddingHorizontal: 10
+                }} title={true}>Transactions</ThemedText>
+                <Spacer height={10} />
 
                 <FlatList
                     data={transactions.documents}
-                    keyExtractor={(item) => item.$id }
-                    contentContainerStyle={styles.listItem}
+                    keyExtractor={(item) => item.$id}
+                    contentContainerStyle={styles.list}
                     renderItem={({ item }) => (
                         <Pressable>
-                            <ThemedCard>
-                                <ThemedText title={true}>{item.description}</ThemedText>
-                                <ThemedText>{item.category}</ThemedText>
-                                <ThemedText>{item.amount}$</ThemedText>
-                                <ThemedText>{item.date}</ThemedText>
-                            </ThemedCard>
+                            <ThemedTransaction transaction={item} />
                         </Pressable>
                     )}
                 />

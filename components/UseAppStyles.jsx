@@ -68,8 +68,18 @@ export default function UseAppStyles() {
             width: '80%'
         },
 
-        listItem: {
-            backgroundColor: theme.uiBackground
+        list: {
+            
+        },
+
+        itemTransaction: {
+            flex: 1,
+            flexDirection: 'row',
+            borderRadius: 6,
+            width: '100%',
+            backgroundColor: theme.uiBackground,
+            padding: 5,
+            marginBottom: 5
         }
     });
 }
