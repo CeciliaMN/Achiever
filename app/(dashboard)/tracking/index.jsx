@@ -74,7 +74,8 @@ export default function Tracking() {
                     keyExtractor={(item) => item.$id}
                     contentContainerStyle={styles.list}
                     renderItem={({ item }) => (
-                        <Pressable>
+                        <Pressable onPress={() => router.push(`/tracking/${item.$id}`)}
+                    >
                             <ThemedTransaction transaction={item} />
                         </Pressable>
                     )}

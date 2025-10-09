@@ -76,12 +76,12 @@ export default function UseAppStyles() {
             flex: 1,
             flexDirection: 'row',
             borderRadius: 6,
-            width: '100%',
+            width: '90%',
             backgroundColor: theme.uiBackground,
             padding: 10,
             marginBottom: 5,
             borderLeftColor: Colors.primary,
-            borderLeftWidth: 6
+            borderLeftWidth: 4
         }
     });
 }
