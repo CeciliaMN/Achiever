@@ -22,9 +22,7 @@ export function UserProvider({ children }) {
     async function signUp(username, email, password) {
         try {
             await account.create(ID.unique(), email, password, username);
-            console.log('account create done');
             await signIn(email, password);
-            console.log('signin done');
 
         }
         catch (error) {
@@ -34,14 +32,12 @@ export function UserProvider({ children }) {
 
     async function signOut() {
         await account.deleteSession('current');
-        console.log('signout done');
     }
 
     async function getInitialUserValue() {
         try {
             const response = await account.get();
             setUser(response);
-            console.log('initial user value: ', response);
         }
         catch(error) {
             console.log(`initial user value failed; ${ error.message }; `, user);

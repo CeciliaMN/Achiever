@@ -1,4 +1,4 @@
-import { Text, View, Image, FlatList, Pressable } from "react-native";
+import { Text, View, Image, FlatList, Pressable, useColorScheme } from "react-native";
 import { Link, useRouter } from "expo-router";
 import ThemedView from "../../../components/ThemedView";
 import ThemedCard from "../../../components/ThemedCard";
@@ -11,9 +11,13 @@ import ThemedLink from "../../../components/ThemedLink";
 import { useEffect, useState } from "react";
 import { useTransactions } from "../../../hooks/useTransactions";
 import ThemedTransaction from "../../../components/lists/ThemedTransaction";
+import { Colors } from "../../../constants/Colors";
 
 export default function Tracking() {
+    const colorScheme = useColorScheme();
+    const theme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
+
     const { user, signOut, authChecked } = useUser();
     const router = useRouter();
     const { transactions } = useTransactions();
@@ -31,13 +35,14 @@ export default function Tracking() {
         <ThemedView
             safe={true}
             style={{
-                justifyContent: 'flex-start'
+                flex: 1,
+                justifyContent: 'space-between'
             }}>
             <Spacer height={15} />
 
             <View
                 style={{
-                    flex: 0,
+                    flexShrink: 0,
                     flexDirection: 'row',
                     columnGap: 30,
                     alignItems: 'center'
@@ -52,39 +57,49 @@ export default function Tracking() {
 
             <View
                 style={{
-                    flex: 1,
+                    flexShrink: 0,
                     alignSelf: 'stretch',
                     paddingHorizontal: 10
                 }}
             >
                 <Spacer height={10} />
 
-                <ThemedText 
-                style={{
-                    flex: 0,
-                    alignSelf: 'flex-start',
-                    paddingHorizontal: 10
-                }} title={true}>Transactions</ThemedText>
-                <Spacer height={10} />
+                <ThemedText
+                    style={{
+                        flexShrink: 0,
+                        alignSelf: 'flex-start',
+                        paddingHorizontal: 10
+                    }} title={true}>Transactions</ThemedText>
+            </View>
 
+            <View
+                style={[styles.list]}>
                 <FlatList
                     data={transactions.documents}
                     keyExtractor={(item) => item.$id}
-                    contentContainerStyle={styles.list}
                     renderItem={({ item }) => (
                         <Pressable onPress={() => {
-                            console.log('Index page item id: ', item.$id);
                             router.push(`/tracking/${item.$id}`);
                         }}
-                    >
+                        >
                             <ThemedTransaction transaction={item} />
                         </Pressable>
                     )}
                 />
             </View>
 
-            <ThemedButton onPress={goToNew} text='New' />
-            <Spacer height={15} />
+
+
+            <View
+                style={{
+                    flexShrink: 0,
+                    alignSelf:'flex-end',
+                    marginEnd:30
+                }}
+            >
+                <ThemedButton onPress={goToNew} text='New' />
+                <Spacer height={15} />
+            </View>
         </ThemedView>
     )
 };

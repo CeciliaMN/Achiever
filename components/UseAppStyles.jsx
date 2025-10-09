@@ -42,7 +42,7 @@ export default function UseAppStyles() {
         },
 
         button: {
-            padding: 15,
+            padding: 6,
             borderRadius: 5
         },
 
@@ -69,15 +69,19 @@ export default function UseAppStyles() {
         },
 
         list: {
-            
+            flex: 1,
+            alignSelf: 'stretch',
+            margin: 10,
+            borderBottomColor: theme.navBackground,
+            borderBottomWidth: 2
         },
 
         itemTransaction: {
             flex: 1,
             flexDirection: 'row',
-            alignSelf:'center',
+            alignSelf: 'center',
             borderRadius: 6,
-            width: '95%',
+            width: '100%',
             backgroundColor: theme.uiBackground,
             padding: 10,
             marginBottom: 5,
