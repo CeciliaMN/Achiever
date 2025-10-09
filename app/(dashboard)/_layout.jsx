@@ -61,8 +61,6 @@ export default function DashboardLayout() {
                                 )
                             }}
                             />
-                        <Tabs.Screen name="tracking/[transaction]" options={{ href: null }} />
-
                         </Tabs>
 
                     </SafeAreaProvider>

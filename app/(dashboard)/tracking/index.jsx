@@ -18,8 +18,6 @@ export default function Tracking() {
     const router = useRouter();
     const { transactions } = useTransactions();
 
-    console.log('Transactions in index: ', transactions);
-
     function goToNew() {
         router.replace('/tracking/newTransaction');
     }
@@ -74,7 +72,10 @@ export default function Tracking() {
                     keyExtractor={(item) => item.$id}
                     contentContainerStyle={styles.list}
                     renderItem={({ item }) => (
-                        <Pressable onPress={() => router.push(`/tracking/${item.$id}`)}
+                        <Pressable onPress={() => {
+                            console.log('Index page item id: ', item.$id);
+                            router.push(`/tracking/${item.$id}`);
+                        }}
                     >
                             <ThemedTransaction transaction={item} />
                         </Pressable>

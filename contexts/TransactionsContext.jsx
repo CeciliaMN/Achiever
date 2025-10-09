@@ -32,7 +32,13 @@ export function TransactionsProvider({ children }) {
 
     async function getTransactionById(id) {
         try {
+            const transaction = await databases.getDocument(
+                DATABASE_ID,
+                TABLE_ID,
+                id
+            );
 
+            return transaction;
         }
         catch (error) {
             console.error(error.message);
@@ -78,9 +84,9 @@ export function TransactionsProvider({ children }) {
             console.error(error.message);
         }
     }
-    
+
     useEffect(() => {
-        if(user) {
+        if (user) {
             getTransactions();
         }
         else {

@@ -75,8 +75,9 @@ export default function UseAppStyles() {
         itemTransaction: {
             flex: 1,
             flexDirection: 'row',
+            alignSelf:'center',
             borderRadius: 6,
-            width: '90%',
+            width: '95%',
             backgroundColor: theme.uiBackground,
             padding: 10,
             marginBottom: 5,

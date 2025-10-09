@@ -26,6 +26,7 @@ export default function TrackingLayout() {
                         }}>
                             <Stack.Screen name="index" options={{ title: 'Tracking', headerShown: false }} />
                             <Stack.Screen name="newTransaction" options={{ title: 'New Transaction' }} />
+                            <Stack.Screen name="[id]" options={{ title:'Transaction Details', href: null }} />
                         </Stack>
 
                     </SafeAreaProvider>
