@@ -136,11 +136,7 @@ export default function NewBudget() {
                     />
 
                     <Pressable
-                        style={[styles.textInput,
-                        {
-                            padding: 0
-                        }
-                        ]}
+                        style={[styles.textInput, { padding: 0 }]}
                         onPress={showDatePicker}
                     >
                         <ThemedTextInput

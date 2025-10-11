@@ -76,6 +76,38 @@ export function TransactionsProvider({ children }) {
         }
     }
 
+    async function updateTransaction(id, data) {
+        try {
+            console.log(data);
+            const date = data.date;
+            const amount = parseFloat(data.amount);
+            const description = data.description;
+            const category = data.category;
+
+            const newTransaction = await databases.updateDocument(
+                DATABASE_ID,
+                TABLE_ID,
+                id,
+                {
+                    userId: user.$id,
+                    date: date,
+                    amount: amount,
+                    description: description,
+                    category: category
+                },
+                [
+                    Permission.read(Role.user(user.$id)),
+                    Permission.update(Role.user(user.$id)),
+                    Permission.delete(Role.user(user.$id))
+                ]
+            )
+            console.log('Update transaction succeed: ', data);
+        }
+        catch (error) {
+            console.error('Update transaction failed: ', error.message);
+        }
+    }
+
     async function deleteTransaction(id) {
         try {
             const transaction = await databases.deleteDocument(
@@ -104,7 +136,7 @@ export function TransactionsProvider({ children }) {
         <TransactionsContext.Provider
             value={{
                 transactions, getTransactions, getTransactionById,
-                addTransaction, deleteTransaction
+                addTransaction, updateTransaction, deleteTransaction
             }}
         >
             {children}
