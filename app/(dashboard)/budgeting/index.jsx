@@ -24,8 +24,8 @@ export default function Budgeting() {
     const { budgets } = useBudgets();
 
     function goToNew() {
-        // router.replace('/budgeting/newBudget');
-        router.replace('/budgeting/categories/newCategory');
+        router.replace('/budgeting/newBudget');
+        // router.replace('/budgeting/categories/newCategory');
     }
 
     function signUserOut() {
@@ -89,8 +89,6 @@ export default function Budgeting() {
                     )}
                 />
             </View>
-
-
 
             <View
                 style={{

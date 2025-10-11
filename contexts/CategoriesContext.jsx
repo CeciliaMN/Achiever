@@ -72,7 +72,7 @@ export function CategoriesProvider({ children }) {
             console.log(data);
             const date = data.date;
             const description = data.description;
-            const theme = data.theme;
+            const theme = data.categoryTheme;
             const amount = parseFloat(data.amount);
 
             const newCategory = await databases.createDocument(

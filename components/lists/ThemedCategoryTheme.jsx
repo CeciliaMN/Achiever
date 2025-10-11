@@ -5,20 +5,14 @@ import { Colors } from "../../constants/Colors";
 import UseAppStyles from "../UseAppStyles";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function ThemedCategoryTheme() {
+export default function ThemedCategoryTheme({ items, setItems, value, setValue }) {
     const colorScheme = useColorScheme();
-    const theme = Colors[colorScheme] ?? Colors.light;
+    const colorTheme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
 
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
 
-    const [items, setItems] = useState([
-        { label: "Fixed Cost", value: "fixed_costs" },
-        { label: "Investment", value: "investments" },
-        { label: "Savings Goal", value: "savings_goals" },
-        { label: "Guilt-Free Spending", value: "guilt_free_spending" }
-    ]);
+//console.log('Themed value: ', value);
 
     return (
         <View style={{ zIndex: 1000 }}>
@@ -30,24 +24,24 @@ export default function ThemedCategoryTheme() {
                 setValue={setValue}
                 setItems={setItems}
                 placeholder="Theme"
-                placeholderStyle={{ color: theme.placeholder }}
+                placeholderStyle={{ color: colorTheme.placeholder }}
                 style={[styles.textInput, {
                     borderWidth: 0
                 }]}
-                textStyle={{ color: theme.text }}
+                textStyle={{ color: colorTheme.text }}
                 dropDownContainerStyle={{
-                    backgroundColor: theme.uiBackground,
+                    backgroundColor: colorTheme.uiBackground,
                     borderWidth: 0,
                     width: '80%'
                 }}
                 ArrowDownIconComponent={() => (
-                    <MaterialIcons name="keyboard-arrow-down" size={24} color={theme.placeholder} />
+                    <MaterialIcons name="keyboard-arrow-down" size={24} color={colorTheme.placeholder} />
                 )}
                 ArrowUpIconComponent={() => (
-                    <MaterialIcons name="keyboard-arrow-up" size={24} color={theme.placeholder} />
+                    <MaterialIcons name="keyboard-arrow-up" size={24} color={colorTheme.placeholder} />
                 )}
                 TickIconComponent={() => (
-                    <MaterialIcons name="check" size={20} color={theme.placeholder} />
+                    <MaterialIcons name="check" size={20} color={colorTheme.placeholder} />
                 )}
             />
         </View>

@@ -48,10 +48,12 @@ export function BudgetsProvider({ children }) {
     async function addBudget(data) {
         try {
             console.log(data);
-            const date = data.date;
-            const category = data.category;
-            const theme = data.theme;
-            const amount = parseFloat(data.amount);
+            const month = data.date;
+            const description = data.description;
+            const categoryIds = data.budgetCategoryIds;
+
+            //const existingBudgets = getBudgets();
+
 
             const newbudget = await databases.createDocument(
                 DATABASE_ID,
@@ -59,10 +61,9 @@ export function BudgetsProvider({ children }) {
                 ID.unique(),
                 {
                     userId: user.$id,
-                    date: date,
-                    category: category,
-                    theme: theme,
-                    amount: amount
+                    month: month,
+                    description: description,
+                    categoryIds: categoryIds
                 },
                 [
                     Permission.read(Role.user(user.$id)),

@@ -1,17 +1,19 @@
-import { Keyboard, TouchableWithoutFeedback, useColorScheme, View } from "react-native";
+import { FlatList, Keyboard, Pressable, TouchableWithoutFeedback, useColorScheme, View } from "react-native";
 import { Colors } from "../../../constants/Colors";
 import UseAppStyles from "../../../components/UseAppStyles";
 import { useUser } from "../../../hooks/useUser";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useBudgets } from "../../../hooks/useBudgets";
 import ThemedLink from "../../../components/ThemedLink";
 import ThemedButton from "../../../components/ThemedButton";
 import ThemedTextInput from "../../../components/ThemedTextInput";
 import ThemedView from "../../../components/ThemedView";
 import ThemedText from "../../../components/ThemedText";
-import DateTimePicker from "react-native-modal-datetime-picker";
 import Spacer from "../../../components/Spacer";
+import ThemedCategory from "../../../components/lists/ThemedCategory";
+import DateTimePicker from "react-native-modal-datetime-picker";
+import { useCategories } from "../../../hooks/useCategories";
 
 export default function NewBudget() {
     const colorScheme = useColorScheme();
@@ -22,34 +24,49 @@ export default function NewBudget() {
     const { user, signOut, authChecked } = useUser();
     const router = useRouter();
 
-    const [date, setDate] = useState(new Date());
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [amount, setAmount] = useState(0.0);
-    const [category, setCategory] = useState('');
-    const [budgetTheme, setBudgetTheme] = useState('');
-    const [loading, setLoading] = useState(false);
-
     const { addBudget } = useBudgets();
+    const { categories } = useCategories();
+
+    const currentDate = new Date();
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+    const newDate = new Date(year, month, 1);
+
+    const [date, setDate] = useState(newDate);
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [budgetCategoryIds, setBudgetCategoryIds] = useState([]);
+    const [amount, setAmount] = useState(0.0);
+    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+
+    function forceRefresh() {
+        setRefresh(prev => !prev);
+    }
 
     function resetFields() {
-        setAmount(0.0);
-        setBudgetTheme('');
-        setCategory('');
+        setDate(newDate);
+        setBudgetCategoryIds([]);
+        forceRefresh();
     }
 
     async function add() {
         // TODO: add transaction to database
-        // TODO: clear fields
         // TODO: success message 
-        if (!amount || !budgetTheme.trim() || !category.trim()) {
+        if (!budgetCategoryIds || budgetCategoryIds.length === 0) {
             return;
         }
-        
         setLoading(true);
-        await addBudget({date, budgetTheme, category, amount});
-        resetFields();
 
-        router.replace('/budgeting');
+        // CREATE BUDGET DESCRIPTION
+        const month = date.toLocaleString('en-US', { month: 'long' });
+        const year = date.getFullYear();
+        const description = `${month} ${year}`;
+
+        console.log('Budget to be created: ', { date, description, budgetCategoryIds });
+        await addBudget({ date, description, budgetCategoryIds });
+        //resetFields();
+
+        //router.replace('/budgeting');
 
         setLoading(false);
     }
@@ -58,16 +75,28 @@ export default function NewBudget() {
         router.replace('/budgeting/categories/newCategory');
     }
 
-    /*
     function cancel() {
-        // TODO: clear fields
-        router.replace('/tracking');
+        resetFields();
+        router.replace('/budgeting');
     }
-    */
 
     function showDatePicker() {
         setDatePickerVisibility(true)
     }
+
+    useEffect(() => {
+        if (!categories || categories.documents.length === 0) return;
+
+        // UPDATE BUDGET TOTAL AMOUNT
+        let newAmount = categories.documents.reduce((sum, currentCategory) => {
+            let newSum = sum;
+            if (budgetCategoryIds.includes(currentCategory.$id)) {
+                newSum += currentCategory.amount;
+            }
+            return newSum;
+        }, 0);
+        setAmount(newAmount);
+    }, [categories, budgetCategoryIds]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -76,36 +105,20 @@ export default function NewBudget() {
                 style={{
                     justifyContent: 'flex-start'
                 }}
-                >
+            >
 
                 <View
                     style={[
                         styles.container,
                         {
-                            flex: .8,
+                            flex: 1,
                             alignItems: 'center',
                             width: '100%',
                             alignItems: 'center',
                             justifyContent: 'flex-start'
                         }
-                    ]}>
-
-                    <View
-                        style={{
-                            flex: .3,
-                            width: '80%',
-                            columnGap: '35%',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                        <ThemedButton
-                            text='Choose Date'
-                            onPress={showDatePicker}
-                        />
-
-                        <ThemedText>{date.toLocaleDateString()}</ThemedText>
-                    </View>
+                    ]}
+                >
 
 
                     <DateTimePicker
@@ -113,50 +126,77 @@ export default function NewBudget() {
                         mode="date"
                         date={date}
                         onConfirm={(selectedDate) => {
-                            setDate(selectedDate);
+                            const month = selectedDate.getMonth();
+                            const year = selectedDate.getFullYear();
+                            const newDate = new Date(year, month, 1);
+                            setDate(newDate);
                             setDatePickerVisibility(false);
                         }}
                         onCancel={() => setDatePickerVisibility(false)}
                     />
 
-                    <ThemedTextInput
-                        placeholder='Theme'
-                        onChangeText={setBudgetTheme}
-                        value={budgetTheme}
-                    />
-                    <Spacer height={15} />
-
-                    <ThemedTextInput
-                        placeholder='Category'
-                        onChangeText={setCategory}
-                        value={category}
-                    />
-                    <Spacer height={15} />                    
-
-                    <ThemedTextInput
-                        placeholder='Amount'
-                        onChangeText={setAmount}
-                        value={amount}
-                        keyboardType='decimal-pad'
-                        onBlur={() => setAmount(parseFloat(amount).toFixed(2))}
-                    />
+                    <Pressable
+                        style={[styles.textInput,
+                        {
+                            padding: 0
+                        }
+                        ]}
+                        onPress={showDatePicker}
+                    >
+                        <ThemedTextInput
+                            placeholder='Date'
+                            value={`Month: ${date.toLocaleDateString().substring(0, 7)}`}
+                            editable={false}
+                        />
+                    </Pressable>
                     <Spacer height={15} />
 
                     <View
+                        style={[styles.list]}>
+                        <FlatList
+                            data={categories.documents}
+                            keyExtractor={(item) => item.$id}
+                            renderItem={({ item }) => (
+                                <Pressable
+                                    onLongPress={() => {
+                                        // TODO : Delete item pop-up
+                                    }}
+                                    onPress={() => {
+                                        // router.push(`/categories/${item.$id}`);
+                                    }}
+                                >
+                                    <ThemedCategory
+                                        category={item}
+                                        categories={categories}
+                                        budgetCategoryIds={budgetCategoryIds}
+                                        setBudgetCategoryIds={setBudgetCategoryIds}
+                                    />
+                                </Pressable>
+                            )}
+                        />
+                        <Spacer height={15} />
+                    </View>
+
+
+                    <View
                         style={{
-                            flex: .3,
+                            flex: 0,
                             flexDirection: 'row',
                             columnGap: 30,
                             alignItems: 'center',
                             justifyContent: 'center'
-                        }}>
-                        <ThemedButton onPress={addCategory} 
-                            text={loading ? 'Saving...' : 'Add Category'} 
-                            disabled={loading} 
+                        }}
+                    >
+                        <ThemedButton onPress={addCategory}
+                            text={loading ? 'Saving...' : 'Create Category'}
+                            disabled={loading}
                         />
                     </View>
                     <Spacer height={15} />
 
+                    <ThemedText>Total: {parseFloat(amount).toFixed(2)}$</ThemedText>
+                    <Spacer height={15} />
+
                     <View
                         style={{
                             flex: .3,
@@ -165,14 +205,19 @@ export default function NewBudget() {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                        <ThemedButton onPress={add} 
-                            text={loading ? 'Saving...' : 'Add'} 
-                            disabled={loading} 
+                        <ThemedButton onPress={add}
+                            text={loading ? 'Saving...' : 'Confirm'}
+                            disabled={loading}
                         />
-                        <ThemedLink href='/budgeting'>Cancel</ThemedLink>
+
+
+                        <ThemedButton
+                            style={{ backgroundColor: Colors.danger }}
+                            onPress={cancel}
+                            text='Cancel'
+                        />
                     </View>
                 </View>
-
 
             </ThemedView>
         </TouchableWithoutFeedback >

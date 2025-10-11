@@ -17,8 +17,8 @@ export default function ThemedBudget({ style, budget, ...props }) {
     const month = (new Date(budget.month)).toLocaleDateString();
     const monthString = month.substring(0, 7);
     const categoryIds = budget.categoryIds;    
-    const categories = getCategoriesByIds(categoryIds);
-    const amount = categories.reduce((sum, currentCategory) => {
+    const { categories } = useCategories();
+    const amount = categories.documents.reduce((sum, currentCategory) => {
         return sum + currentCategory.amount;
     }, 0);
 

@@ -1,6 +1,7 @@
 export const Colors = {
     primary: "#668874ff",
-    warning: "#cc475a",
+    warning: "#ad9f22ff",
+    danger: "#cc475a",
 
     dark: {
         text: "#d4d4d4",

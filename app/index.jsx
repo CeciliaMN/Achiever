@@ -23,6 +23,8 @@ export default function Home() {
 
             <Spacer />
             <ThemedLink href='/signIn'>Sign In</ThemedLink>
+            <Spacer height={15} />
+
             <ThemedLink href='/tracking'>Continue as Guest</ThemedLink>
         </ThemedView>
     )

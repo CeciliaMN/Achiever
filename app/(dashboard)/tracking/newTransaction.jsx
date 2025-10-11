@@ -1,4 +1,4 @@
-import { Text, View, Image, TouchableWithoutFeedback, Keyboard, useColorScheme } from "react-native";
+import { Text, View, Image, TouchableWithoutFeedback, Keyboard, useColorScheme, Pressable, TextInput } from "react-native";
 import { Link, useRouter } from "expo-router";
 import ThemedView from "../../../components/ThemedView";
 import UseAppStyles from "../../../components/UseAppStyles";
@@ -10,9 +10,10 @@ import ThemedLink from "../../../components/ThemedLink";
 import { useEffect, useState } from "react";
 import ThemedTextInput from "../../../components/ThemedTextInput";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import DateTimePicker from "react-native-modal-datetime-picker";
 import { Colors } from "../../../constants/Colors";
 import { useTransactions } from "../../../hooks/useTransactions";
+import MonthPicker from "react-native-month-year-picker";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 export default function NewTransaction() {
     const colorScheme = useColorScheme();
@@ -45,9 +46,9 @@ export default function NewTransaction() {
         if (!amount || !description.trim() || !category.trim()) {
             return;
         }
-        
+
         setLoading(true);
-        await addTransaction({date, amount, description, category});
+        await addTransaction({ date, amount, description, category });
         resetFields();
 
         router.replace('/tracking');
@@ -55,12 +56,10 @@ export default function NewTransaction() {
         setLoading(false);
     }
 
-    /*
     function cancel() {
-        // TODO: clear fields
+        resetFields();
         router.replace('/tracking');
     }
-    */
 
     function showDatePicker() {
         setDatePickerVisibility(true)
@@ -86,24 +85,6 @@ export default function NewTransaction() {
                         }
                     ]}>
 
-                    <View
-                        style={{
-                            flex: .3,
-                            width: '80%',
-                            columnGap: '35%',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                        <ThemedButton
-                            text='Choose Date'
-                            onPress={showDatePicker}
-                        />
-
-                        <ThemedText>{date.toLocaleDateString()}</ThemedText>
-                    </View>
-
-
                     <DateTimePicker
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -114,6 +95,22 @@ export default function NewTransaction() {
                         }}
                         onCancel={() => setDatePickerVisibility(false)}
                     />
+
+                    <Pressable
+                        style={[styles.textInput, 
+                            {
+                                padding:0
+                            }
+                        ]}
+                        onPress={showDatePicker}
+                    >
+                        <ThemedTextInput
+                            placeholder='Date'
+                            value={date.toLocaleDateString()}
+                            editable={false}
+                        />
+                    </Pressable>
+                    <Spacer height={15} />
 
                     <ThemedTextInput
                         placeholder='Amount'
@@ -137,19 +134,40 @@ export default function NewTransaction() {
                         value={category}
                     />
                     <Spacer height={15} />
+
+                    
+
+                    <View
+                        style={{
+                            flex: .3,
+                            width: '80%',
+                            columnGap: '15%',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                        <ThemedButton 
+                            onPress={add}
+                            text={loading ? 'Saving...' : 'Add'}
+                            disabled={loading}
+                        />
+                        <ThemedButton 
+                            style={{ backgroundColor: Colors.danger}}
+                            onPress={cancel}
+                            text='Cancel'
+                            disabled={loading}
+                        />
+                    </View>
+
                     <View
                         style={{
                             flex: .3,
                             flexDirection: 'row',
-                            columnGap: 30,
+                            columnGap: '20%',
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                        <ThemedButton onPress={add} 
-                            text={loading ? 'Saving...' : 'Add'} 
-                            disabled={loading} 
-                        />
-                        <ThemedLink href='/tracking'>Cancel</ThemedLink>
+                        
                     </View>
                 </View>
 

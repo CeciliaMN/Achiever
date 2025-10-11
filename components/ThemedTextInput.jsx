@@ -14,7 +14,7 @@ export default function ThemedTextInput({ style, ...props }) {
                 { backgroundColor: theme.uiBackground },
                 styles.textInput,
                 style
-            ]}            
+            ]}        
             { ...props }
         />
 

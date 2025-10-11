@@ -37,7 +37,6 @@ export default function UseAppStyles() {
         link: {
             borderBottomWidth: 1,
             borderBottomColor: theme.text,
-            marginTop: 20,
             color: theme.text
         },
 

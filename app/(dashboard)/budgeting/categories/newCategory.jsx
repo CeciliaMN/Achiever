@@ -11,6 +11,7 @@ import Spacer from "../../../../components/Spacer";
 import ThemedButton from "../../../../components/ThemedButton";
 import ThemedLink from "../../../../components/ThemedLink";
 import ThemedCategoryTheme from "../../../../components/lists/ThemedCategoryTheme";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 export default function NewCategory() {
     const colorScheme = useColorScheme();
@@ -22,39 +23,50 @@ export default function NewCategory() {
     const router = useRouter();
 
     const [description, setDescription] = useState('');
-    const [categoryTheme, setCategoryTheme] = useState('');
+    const [categoryTheme, setCategoryTheme] = useState(null);
+    const [items, setItems] = useState([
+            { label: "Fixed Cost", value: "fixed_costs" },
+            { label: "Investment", value: "investments" },
+            { label: "Savings Goal", value: "savings_goals" },
+            { label: "Guilt-Free Spending", value: "guilt_free_spending" }
+        ]);
     const [amount, setAmount] = useState(0.0);
     const [loading, setLoading] = useState(false);
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const { addCategory } = useCategories();
 
     function resetFields() {
         setDescription('');
-        setCategoryTheme('');
+        setCategoryTheme(null);
         setAmount(0.0);
+    }
+
+    function showDatePicker() {
+        setDatePickerVisibility(true)
     }
 
     async function add() {
         // TODO: add transaction to database
-        // TODO: clear fields
         // TODO: success message 
-        if (!amount || !categoryTheme.trim() || !description.trim()) {
+        console.log('Theme : ', categoryTheme);
+
+        if (!amount || !categoryTheme || !description.trim()) {
             return;
         }
-        
+
         setLoading(true);
-        await addCategory({description, theme, amount});
-        
+        await addCategory({ description, categoryTheme, amount });
+
         resetFields();
         setLoading(false);
     }
 
-    /*
+   
     function cancel() {
-        // TODO: clear fields
-        router.replace('/tracking');
+        resetFields();
+        router.replace('/budgeting/newBudget');
     }
-    */
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -76,16 +88,20 @@ export default function NewCategory() {
                         }
                     ]}
                 >
-
                     <ThemedTextInput
                         placeholder='Description'
                         onChangeText={setDescription}
                         value={description}
                     />
-                    <Spacer height={15} />  
-                    
-                    <ThemedCategoryTheme />
-                    <Spacer height={15} />                  
+                    <Spacer height={15} />
+
+                    <ThemedCategoryTheme
+                        items={items}
+                        setItems={setItems}
+                        value={categoryTheme}
+                        setValue={setCategoryTheme}
+                        />
+                    <Spacer height={15} />
 
                     <ThemedTextInput
                         placeholder='Amount'
@@ -104,11 +120,14 @@ export default function NewCategory() {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                        <ThemedButton onPress={add} 
-                            text={loading ? 'Saving...' : 'Add'} 
-                            disabled={loading} 
+                        <ThemedButton onPress={add}
+                            text={loading ? 'Saving...' : 'Add'}
+                            disabled={loading}
                         />
-                        <ThemedLink href='/budgeting'>Cancel</ThemedLink>
+                        <ThemedButton onPress={cancel}
+                            text='Cancel'
+                            style={{backgroundColor: Colors.danger}}
+                        />
                     </View>
                 </View>
 
