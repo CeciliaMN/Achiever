@@ -31,6 +31,8 @@ export default function Tracking() {
         router.replace('/');
     }
 
+    console.log('User in Tracking index page: ', user.email);
+
     return (
         <ThemedView
             safe={true}
@@ -49,7 +51,7 @@ export default function Tracking() {
                 }}
             >
                 <ThemedText>
-                    Hello{authChecked && user != null ? ` ${user.name}` : ''} !
+                    Hello{authChecked && user != null ? ` ${user.identities.email}` : ''} !
                 </ThemedText>
 
                 <ThemedButton onPress={signUserOut} text='Sign Out' />

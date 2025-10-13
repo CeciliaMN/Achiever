@@ -12,18 +12,14 @@ import { useState } from "react";
 import { useUser } from "../../hooks/useUser";
 
 const SignUp = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    const { user, signUp } = useUser();
+    const { user, signUp, email, setEmail, password, setPassword } = useUser();
 
     const styles = UseAppStyles();
 
     const handleSubmit = async () => {
         console.log('Sign Up Form Submitted.');
         console.log('user before sign up: ', user);
-        await signUp(username, email, password);
+        await signUp();
         console.log('user after sign up: ', user);
     };
 
@@ -32,13 +28,6 @@ const SignUp = () => {
             <ThemedView>
                 <ThemedText title={true} >Create a New Account</ThemedText>
                 <Spacer height={20} />
-
-                <ThemedTextInput
-                    placeholder='Username'
-                    onChangeText={setUsername}
-                    value={username}
-                />
-                <Spacer height={15} />
 
                 <ThemedTextInput
                     placeholder='Email'

@@ -4,7 +4,7 @@ import { Colors } from "../../constants/Colors";
 import { Ionicons } from '@expo/vector-icons'
 import UseAppStyles from "../../components/UseAppStyles";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { UserProvider } from "../../contexts/UserContext";
+import { UserContext, UserProvider } from "../../contexts/SupabaseUserContext";
 import { UserOnly } from "../../components/auth/UserOnly";
 import { TransactionsProvider } from "../../contexts/TransactionsContext";
 
@@ -12,6 +12,8 @@ export default function DashboardLayout() {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
+
+    console.log('LAYOUT DASHBOARD');
 
     return (
         <UserProvider>

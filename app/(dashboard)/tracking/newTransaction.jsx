@@ -13,7 +13,6 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { Colors } from "../../../constants/Colors";
 import { useTransactions } from "../../../hooks/useTransactions";
 import { useCategories } from "../../../hooks/useCategories";
-import MonthPicker from "react-native-month-year-picker";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import ThemedDropDown from "../../../components/ThemedDropDown";
 

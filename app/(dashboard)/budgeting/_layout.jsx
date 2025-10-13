@@ -4,7 +4,7 @@ import { Colors } from "../../../constants/Colors";
 import { Ionicons } from '@expo/vector-icons'
 import UseAppStyles from "../../../components/UseAppStyles";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { UserProvider } from "../../../contexts/UserContext";
+import { UserProvider } from "../../../contexts/SupabaseUserContext";
 import { UserOnly } from "../../../components/auth/UserOnly";
 import { BudgetsProvider } from "../../../contexts/BudgetsContext";
 import { TransactionsProvider } from "../../../contexts/TransactionsContext";
@@ -14,6 +14,8 @@ export default function TrackingLayout() {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
+
+    console.log('LAYOUT BUDGETING');
 
     return (
         <UserProvider>

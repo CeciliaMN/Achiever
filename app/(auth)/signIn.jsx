@@ -1,5 +1,5 @@
 import { Keyboard, Pressable, TouchableWithoutFeedback } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import UseAppStyles from "../../components/UseAppStyles";
 import ThemedView from "../../components/ThemedView";
 import ThemedCard from "../../components/ThemedCard";
@@ -8,23 +8,35 @@ import ThemedText from "../../components/ThemedText";
 import ThemedButton from "../../components/ThemedButton";
 import ThemedLink from "../../components/ThemedLink";
 import ThemedTextInput from "../../components/ThemedTextInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
 
 export default function SignIn() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
-    const { user, signIn } = useUser();
+    const { user, signIn, email, setEmail, password, setPassword, authChecked } = useUser();
 
     const styles = UseAppStyles();
 
     const handleSubmit = async () => {
         console.log('Login Form Submitted.');
-        console.log('user before sign in: ', user);
-        await signIn(email, password);
-        console.log('user after sign in: ', user);
+        console.log('user before sign in (Sign in page): ', user);
+        await signIn();
+        console.log('user after sign in (Sign in page): ', user);
+
+        if (authChecked && user) {
+            console.info('Sign in page: Already signed in.');
+
+            router.replace('/tracking');
+        }
     };
+
+    useEffect(() => {
+        if (authChecked && user) {
+            console.info('Sign in page: Already signed in.');
+
+            router.replace('/tracking');
+        }
+    }, [authChecked, user])
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

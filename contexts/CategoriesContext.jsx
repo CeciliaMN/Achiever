@@ -19,7 +19,7 @@ export function CategoriesProvider({ children }) {
                 DATABASE_ID,
                 TABLE_ID,
                 [
-                    Query.equal('userId', user.$id)
+                    Query.equal('userId', user.id)
                 ]
             );
 

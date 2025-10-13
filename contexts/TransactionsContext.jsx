@@ -15,6 +15,7 @@ export function TransactionsProvider({ children }) {
 
     async function getTransactions() {
         try {
+            /*
             const transactions = await databases.listDocuments(
                 DATABASE_ID,
                 TABLE_ID,
@@ -24,6 +25,8 @@ export function TransactionsProvider({ children }) {
             );
 
             setTransactions(transactions);
+            */
+
         }
         catch (error) {
             console.error(error.message);
@@ -32,6 +35,8 @@ export function TransactionsProvider({ children }) {
 
     async function getTransactionById(id) {
         try {
+        /*
+
             const transaction = await databases.getDocument(
                 DATABASE_ID,
                 TABLE_ID,
@@ -39,14 +44,18 @@ export function TransactionsProvider({ children }) {
             );
 
             return transaction;
+            */
+
         }
         catch (error) {
             console.error(error.message);
         }
+
     }
 
     async function addTransaction(data) {
         try {
+            /*
             console.log(data);
             const date = data.date;
             const amount = parseFloat(data.amount);
@@ -70,6 +79,7 @@ export function TransactionsProvider({ children }) {
                     Permission.delete(Role.user(user.$id))
                 ]
             )
+                */
         }
         catch (error) {
             console.error(error.message);
@@ -78,6 +88,7 @@ export function TransactionsProvider({ children }) {
 
     async function updateTransaction(id, data) {
         try {
+            /*
             console.log(data);
             const date = data.date;
             const amount = parseFloat(data.amount);
@@ -89,7 +100,7 @@ export function TransactionsProvider({ children }) {
                 TABLE_ID,
                 id,
                 {
-                    userId: user.$id,
+                    userId: user.id,
                     date: date,
                     amount: amount,
                     description: description,
@@ -102,6 +113,7 @@ export function TransactionsProvider({ children }) {
                 ]
             )
             console.log('Update transaction succeed: ', data);
+            */
         }
         catch (error) {
             console.error('Update transaction failed: ', error.message);
@@ -110,6 +122,7 @@ export function TransactionsProvider({ children }) {
 
     async function deleteTransaction(id) {
         try {
+            /*
             const transaction = await databases.deleteDocument(
                 DATABASE_ID,
                 TABLE_ID,
@@ -117,6 +130,7 @@ export function TransactionsProvider({ children }) {
             );
 
             return transaction;
+            */
         }
         catch (error) {
             console.error(error.message);
