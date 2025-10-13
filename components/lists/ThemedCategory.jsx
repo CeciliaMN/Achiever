@@ -45,7 +45,7 @@ export default function ThemedCategory({ style, category, categories, budgetCate
                 styles.itemTransaction,
                 style
             ]}
-        >
+         >
             <View style={{
                 flex: 1,
                 alignItems: 'flex-start',
@@ -64,7 +64,6 @@ export default function ThemedCategory({ style, category, categories, budgetCate
 
                 <Pressable onPress={handleSelectionChange} >
                     <ThemedText style={{ color: color }}>{selected ? 'added' : 'add'}</ThemedText>
-
                 </Pressable>
             </View>
         </View>

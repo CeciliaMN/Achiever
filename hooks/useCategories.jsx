@@ -5,7 +5,7 @@ export function useCategories() {
     const context = useContext(CategoriesContext);
 
     if (!context) {
-        throw new Error('useCategories must be used within a BudgetsProvider.');
+        throw new Error('useCategories must be used within a CategoriesProvider.');
     }
 
     return context;

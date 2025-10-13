@@ -51,7 +51,7 @@ export function TransactionsProvider({ children }) {
             const date = data.date;
             const amount = parseFloat(data.amount);
             const description = data.description;
-            const category = data.category;
+            const categoryId = data.categoryId;
 
             const newTransaction = await databases.createDocument(
                 DATABASE_ID,
@@ -60,9 +60,9 @@ export function TransactionsProvider({ children }) {
                 {
                     userId: user.$id,
                     date: date,
-                    amount: amount,
                     description: description,
-                    category: category
+                    categoryId: categoryId,
+                    amount: amount,
                 },
                 [
                     Permission.read(Role.user(user.$id)),
@@ -82,7 +82,7 @@ export function TransactionsProvider({ children }) {
             const date = data.date;
             const amount = parseFloat(data.amount);
             const description = data.description;
-            const category = data.category;
+            const categoryId = data.categoryId;
 
             const newTransaction = await databases.updateDocument(
                 DATABASE_ID,
@@ -93,7 +93,7 @@ export function TransactionsProvider({ children }) {
                     date: date,
                     amount: amount,
                     description: description,
-                    category: category
+                    categoryId: categoryId
                 },
                 [
                     Permission.read(Role.user(user.$id)),

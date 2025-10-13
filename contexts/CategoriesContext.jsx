@@ -38,6 +38,7 @@ export function CategoriesProvider({ children }) {
                 id
             );
 
+            console.log('Get category by ID: ', category);
             return category;
         }
         catch (error) {

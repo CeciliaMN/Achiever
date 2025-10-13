@@ -11,6 +11,8 @@ import { Colors } from "../../../constants/Colors";
 import ThemedTextInput from "../../../components/ThemedTextInput";
 import UseAppStyles from "../../../components/UseAppStyles";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import { useCategories } from "../../../hooks/useCategories";
+import ThemedDropDown from "../../../components/ThemedDropDown";
 
 export default function TransactionDetails() {
     const colorScheme = useColorScheme();
@@ -26,19 +28,20 @@ export default function TransactionDetails() {
 
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState(0.0);
-    const [category, setCategory] = useState('');
     const [date, setDate] = useState(new Date());
-
+    
+    const [categoryId, setCategoryId] = useState(null);
+    const [categoryDescriptions, setCategoryDescriptions] = useState([]);
 
     const { updateTransaction, deleteTransaction } = useTransactions();
+    const { categories } = useCategories();
 
-    
     function showDatePicker() {
         setDatePickerVisibility(true)
     }
 
     function confirmUpdate() {
-        const newTransaction = { description, amount, category, date };
+        const newTransaction = { categoryId, description, amount, date };
         updateDB(id, newTransaction);
         setTransaction(newTransaction);
         setIsUpdating(false);
@@ -47,12 +50,12 @@ export default function TransactionDetails() {
     function cancelUpdate() {
         setDescription(transaction.description);
         setAmount(parseFloat(transaction.amount));
-        setCategory(transaction.category);
+        setCategoryId(transaction.categoryId);
         setDate(new Date(transaction.date));
 
         setIsUpdating(false);
-    }    
-    
+    }
+
     async function deleteCurrent() {
         await deleteTransaction(id);
         router.back();
@@ -73,13 +76,21 @@ export default function TransactionDetails() {
 
             setDescription(transactionData.description);
             setAmount(parseFloat(transactionData.amount));
-            setCategory(transactionData.category);
             setDate(new Date(transactionData.date));
 
             setShow(true);
         }
-
         loadTransaction();
+
+        // GET CATEGORY DESCRIPTIONS
+        if (categories ) {
+            let newCategoryDescriptions = categories.documents.map((categ) => {
+                const desc = categ.description;
+                const val = categ.$id;
+                return { label: desc, value: val };
+            });
+            setCategoryDescriptions(newCategoryDescriptions);
+        }
     }, [id])
 
     return (
@@ -94,9 +105,6 @@ export default function TransactionDetails() {
                                 <Spacer height={15} />
 
                                 <ThemedText>Amount : {parseFloat(transaction.amount).toFixed(2)}$</ThemedText>
-                                <Spacer height={15} />
-
-                                <ThemedText>Category : {transaction.category}</ThemedText>
                                 <Spacer height={15} />
 
                                 <ThemedText>Date : {(new Date(transaction.date).toLocaleDateString())}</ThemedText>
@@ -179,10 +187,12 @@ export default function TransactionDetails() {
                                 />
                                 <Spacer height={15} />
 
-                                <ThemedTextInput
+                                <ThemedDropDown
                                     placeholder='Category'
-                                    onChangeText={setCategory}
-                                    value={category}
+                                    items={categoryDescriptions}
+                                    setItems={setCategoryDescriptions}
+                                    value={categoryId}
+                                    setValue={setCategoryId}
                                 />
                                 <Spacer height={15} />
 

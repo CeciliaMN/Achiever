@@ -12,8 +12,10 @@ import ThemedTextInput from "../../../components/ThemedTextInput";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { Colors } from "../../../constants/Colors";
 import { useTransactions } from "../../../hooks/useTransactions";
+import { useCategories } from "../../../hooks/useCategories";
 import MonthPicker from "react-native-month-year-picker";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import ThemedDropDown from "../../../components/ThemedDropDown";
 
 export default function NewTransaction() {
     const colorScheme = useColorScheme();
@@ -28,31 +30,28 @@ export default function NewTransaction() {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [amount, setAmount] = useState(0.0);
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
+    const [categoryId, setCategoryId] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [categoryDescriptions, setCategoryDescriptions] = useState([]);
 
     const { addTransaction } = useTransactions();
+    const { categories } = useCategories();
 
     function resetFields() {
         setAmount(0.0);
         setDescription('');
-        setCategory('');
+        setCategoryId(null);
     }
 
     async function add() {
-        // TODO: add transaction to database
-        // TODO: clear fields
         // TODO: success message 
-        if (!amount || !description.trim() || !category.trim()) {
+        if (!amount || !description.trim() || !categoryId.trim()) {
             return;
         }
 
         setLoading(true);
-        await addTransaction({ date, amount, description, category });
+        await addTransaction({ date, amount, description, categoryId });
         resetFields();
-
-        router.replace('/tracking');
-
         setLoading(false);
     }
 
@@ -64,6 +63,18 @@ export default function NewTransaction() {
     function showDatePicker() {
         setDatePickerVisibility(true)
     }
+
+    useEffect(() => {
+        // GET CATEGORY DESCRIPTIONS
+        if (categories ) {
+            let newCategoryDescriptions = categories.documents.map((categ) => {
+                const desc = categ.description;
+                const val = categ.$id;
+                return { label: desc, value: val };
+            });
+            setCategoryDescriptions(newCategoryDescriptions);
+        }
+    }, [])
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -84,6 +95,52 @@ export default function NewTransaction() {
                             justifyContent: 'flex-start'
                         }
                     ]}>
+                    <View
+                        style={{
+                            flexShrink: 0,
+                            flexDirection: 'row',
+                            alignSelf: 'flex-start',
+                            marginStart: '10%'
+                        }}
+                    >
+                        <ThemedTextInput
+                            placeholder='Amount'
+                            onChangeText={setAmount}
+                            value={!isNaN(amount) ? amount.toString() : ''}
+                            keyboardType='decimal-pad'
+                            onBlur={() => setAmount(parseFloat(amount).toFixed(2))}
+                            style={{
+                                flexShrink: 0,
+                                alignSelf: 'flex-start',
+                                width: '70%'
+                            }}
+                        />
+
+                        <ThemedText
+                            style={{
+                                flexShrink: 0,
+                                alignSelf: 'center',
+                                marginStart: 5
+                            }}
+                        >$</ThemedText>
+                    </View>
+                    <Spacer height={15} />
+
+                    <ThemedTextInput
+                        placeholder='Description'
+                        onChangeText={setDescription}
+                        value={description}
+                    />
+                    <Spacer height={15} />
+
+                    <ThemedDropDown
+                        placeholder='Category'
+                        items={categoryDescriptions}
+                        setItems={setCategoryDescriptions}
+                        value={categoryId}
+                        setValue={setCategoryId}
+                    />
+                    <Spacer height={15} />
 
                     <DateTimePicker
                         isVisible={isDatePickerVisible}
@@ -95,12 +152,11 @@ export default function NewTransaction() {
                         }}
                         onCancel={() => setDatePickerVisibility(false)}
                     />
-
                     <Pressable
-                        style={[styles.textInput, 
-                            {
-                                padding:0
-                            }
+                        style={[styles.textInput,
+                        {
+                            padding: 0
+                        }
                         ]}
                         onPress={showDatePicker}
                     >
@@ -110,32 +166,7 @@ export default function NewTransaction() {
                             editable={false}
                         />
                     </Pressable>
-                    <Spacer height={15} />
-
-                    <ThemedTextInput
-                        placeholder='Amount'
-                        onChangeText={setAmount}
-                        value={amount}
-                        keyboardType='decimal-pad'
-                        onBlur={() => setAmount(parseFloat(amount).toFixed(2))}
-                    />
-                    <Spacer height={15} />
-
-                    <ThemedTextInput
-                        placeholder='Description'
-                        onChangeText={setDescription}
-                        value={description}
-                    />
-                    <Spacer height={15} />
-
-                    <ThemedTextInput
-                        placeholder='Category'
-                        onChangeText={setCategory}
-                        value={category}
-                    />
-                    <Spacer height={15} />
-
-                    
+                    <Spacer height={30} />
 
                     <View
                         style={{
@@ -146,13 +177,13 @@ export default function NewTransaction() {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                        <ThemedButton 
+                        <ThemedButton
                             onPress={add}
                             text={loading ? 'Saving...' : 'Add'}
                             disabled={loading}
                         />
-                        <ThemedButton 
-                            style={{ backgroundColor: Colors.danger}}
+                        <ThemedButton
+                            style={{ backgroundColor: Colors.danger }}
                             onPress={cancel}
                             text='Cancel'
                             disabled={loading}
@@ -167,7 +198,7 @@ export default function NewTransaction() {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                        
+
                     </View>
                 </View>
 

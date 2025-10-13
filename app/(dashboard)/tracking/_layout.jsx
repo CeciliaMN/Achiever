@@ -7,6 +7,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { UserProvider } from "../../../contexts/UserContext";
 import { UserOnly } from "../../../components/auth/UserOnly";
 import { TransactionsProvider } from "../../../contexts/TransactionsContext";
+import { CategoriesProvider } from "../../../contexts/CategoriesContext";
 
 export default function TrackingLayout() {
     const colorScheme = useColorScheme();
@@ -16,21 +17,23 @@ export default function TrackingLayout() {
     return (
         <UserProvider>
             <UserOnly>
-                <TransactionsProvider>
-                    <SafeAreaProvider>
+                <CategoriesProvider>
+                    <TransactionsProvider>
+                        <SafeAreaProvider>
 
-                        <Stack screenOptions={{
-                            headerStyle: { backgroundColor: theme.navBackground },
-                            headerTintColor: theme.title,
-                            headerShown: true
-                        }}>
-                            <Stack.Screen name="index" options={{ title: 'Tracking', headerShown: false }} />
-                            <Stack.Screen name="newTransaction" options={{ title: 'New Transaction' }} />
-                            <Stack.Screen name="[id]" options={{ title:'Transaction Details', href: null }} />
-                        </Stack>
+                            <Stack screenOptions={{
+                                headerStyle: { backgroundColor: theme.navBackground },
+                                headerTintColor: theme.title,
+                                headerShown: true
+                            }}>
+                                <Stack.Screen name="index" options={{ title: 'Tracking', headerShown: false }} />
+                                <Stack.Screen name="newTransaction" options={{ title: 'New Transaction' }} />
+                                <Stack.Screen name="[id]" options={{ title: 'Transaction Details', href: null }} />
+                            </Stack>
 
-                    </SafeAreaProvider>
-                </TransactionsProvider>
+                        </SafeAreaProvider>
+                    </TransactionsProvider>
+                </CategoriesProvider>
             </UserOnly>
         </UserProvider>
     )
