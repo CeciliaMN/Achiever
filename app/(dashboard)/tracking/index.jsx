@@ -26,13 +26,6 @@ export default function Tracking() {
         router.replace('/tracking/newTransaction');
     }
 
-    function signUserOut() {
-        signOut();
-        router.replace('/');
-    }
-
-    console.log('User in Tracking index page: ', user.email);
-
     return (
         <ThemedView
             safe={true}
@@ -41,21 +34,6 @@ export default function Tracking() {
                 justifyContent: 'space-between'
             }}>
             <Spacer height={15} />
-
-            <View
-                style={{
-                    flexShrink: 0,
-                    flexDirection: 'row',
-                    columnGap: 30,
-                    alignItems: 'center'
-                }}
-            >
-                <ThemedText>
-                    Hello{authChecked && user != null ? ` ${user.identities.email}` : ''} !
-                </ThemedText>
-
-                <ThemedButton onPress={signUserOut} text='Sign Out' />
-            </View>
 
             <View
                 style={{
@@ -74,29 +52,39 @@ export default function Tracking() {
                     }} title={true}>Transactions</ThemedText>
             </View>
 
-            <View
-                style={[styles.list]}>
-                <FlatList
-                    data={transactions.documents}
-                    keyExtractor={(item) => item.$id}
-                    renderItem={({ item }) => (
-                        <Pressable onPress={() => {
-                            router.push(`/tracking/${item.$id}`);
-                        }}
-                        >
-                            <ThemedTransaction transaction={item} />
-                        </Pressable>
-                    )}
-                />
-            </View>
+            {
+                transactions.documents && transactions.documents.length > 0 ?
+                
+                    <View
+                        style={[styles.list]}>
+                        <FlatList
+                            data={transactions.documents}
+                            keyExtractor={(item) => item.$id}
+                            renderItem={({ item }) => (
+                                <Pressable onPress={() => {
+                                    router.push(`/tracking/${item.$id}`);
+                                }}
+                                >
+                                    <ThemedTransaction transaction={item} />
+                                </Pressable>
+                            )}
+                        />
+                    </View> :
+
+                    <ThemedView>
+                        <ThemedText>No transactions to show.</ThemedText>
+                    </ThemedView>
+            }
+
+
 
 
 
             <View
                 style={{
                     flexShrink: 0,
-                    alignSelf:'flex-end',
-                    marginEnd:30
+                    alignSelf: 'flex-end',
+                    marginEnd: 30
                 }}
             >
                 <ThemedButton onPress={goToNew} text='New' />

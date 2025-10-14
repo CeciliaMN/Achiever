@@ -41,6 +41,7 @@ export default function DashboardLayout() {
                                     )
                                 }}
                             />
+
                             <Tabs.Screen name="budgeting" options={{
                                 title: 'Budgeting',
                                 tabBarIcon: ({ focused }) => (
@@ -52,12 +53,25 @@ export default function DashboardLayout() {
                                 )
                             }}
                             />
+
                             <Tabs.Screen name="planning" options={{
                                 title: 'Planning',
                                 tabBarIcon: ({ focused }) => (
                                     <Ionicons
                                         size={24}
                                         name={focused ? "calendar-number" : "calendar-number-outline"}
+                                        color={focused ? theme.iconColorFocused : theme.iconColor}
+                                    />
+                                )
+                            }}
+                            />
+
+                            <Tabs.Screen name="profile" options={{
+                                title: 'Profile',
+                                tabBarIcon: ({ focused }) => (
+                                    <Ionicons
+                                        size={24}
+                                        name={focused ? "person" : "person-outline"}
                                         color={focused ? theme.iconColorFocused : theme.iconColor}
                                     />
                                 )

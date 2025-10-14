@@ -39,23 +39,9 @@ export default function Budgeting() {
             style={{
                 flex: 1,
                 justifyContent: 'space-between'
-            }}>
-            <Spacer height={15} />
-
-            <View
-                style={{
-                    flexShrink: 0,
-                    flexDirection: 'row',
-                    columnGap: 30,
-                    alignItems: 'center'
-                }}
+            }}
             >
-                <ThemedText>
-                    Hello{authChecked && user != null ? ` ${user.name}` : ''} !
-                </ThemedText>
-
-                <ThemedButton onPress={signUserOut} text='Sign Out' />
-            </View>
+            <Spacer height={15} />
 
             <View
                 style={{
@@ -74,27 +60,35 @@ export default function Budgeting() {
                     }} title={true}>Budgets</ThemedText>
             </View>
 
-            <View
-                style={[styles.list]}>
-                <FlatList
-                    data={budgets.documents}
-                    keyExtractor={(item) => item.$id}
-                    renderItem={({ item }) => (
-                        <Pressable onPress={() => {
-                            router.push(`/budgeting/${item.$id}`);
-                        }}
-                        >
-                            <ThemedBudget budget={item} />
-                        </Pressable>
-                    )}
-                />
-            </View>
+            {
+                budgets.documents && budgets.documents.length > 0 ?
+
+                    <View
+                        style={[styles.list]}>
+                        <FlatList
+                            data={budgets.documents}
+                            keyExtractor={(item) => item.$id}
+                            renderItem={({ item }) => (
+                                <Pressable onPress={() => {
+                                    router.push(`/budgeting/${item.$id}`);
+                                }}
+                                >
+                                    <ThemedBudget budget={item} />
+                                </Pressable>
+                            )}
+                        />
+                    </View> :
+
+                    <ThemedView>
+                        <ThemedText>No budgets to show.</ThemedText>
+                    </ThemedView>
+            }
 
             <View
                 style={{
                     flexShrink: 0,
-                    alignSelf:'flex-end',
-                    marginEnd:30
+                    alignSelf: 'flex-end',
+                    marginEnd: 30
                 }}
             >
                 <ThemedButton onPress={goToNew} text='New' />
