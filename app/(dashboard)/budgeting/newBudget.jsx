@@ -89,7 +89,8 @@ export default function NewBudget() {
             return await getCategories(); 
         }
         loadCategories()
-            .then(data => console.log('Fetched categories:', data));
+            //.then(data => console.log('Fetched categories:', data))
+            ;
     }, []);
 
     useEffect(() => {
@@ -98,11 +99,12 @@ export default function NewBudget() {
         // UPDATE BUDGET TOTAL AMOUNT
         let newAmount = categories.reduce((sum, currentCategory) => {
             let newSum = sum;
-            if (budgetCategoryIds.includes(currentCategory.$id)) {
+            if (budgetCategoryIds.includes(currentCategory.id)) {
                 newSum += currentCategory.amount;
             }
             return newSum;
         }, 0);
+
         setAmount(newAmount);
     }, [categories, budgetCategoryIds]);
 
