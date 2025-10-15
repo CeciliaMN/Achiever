@@ -12,9 +12,6 @@ export default function ThemedCategory({ style, category, categories, budgetCate
     const [selected, setSelected] = useState(false);
     const [color, setColor] = useState(Colors.primary)
 
-    //console.log('List of budget categories : ', categories);
-
-
     function handleSelectionChange() {
         const newSelection = !selected;
         const newColor = newSelection ? theme.text : Colors.primary;
@@ -22,15 +19,15 @@ export default function ThemedCategory({ style, category, categories, budgetCate
         setColor(newColor);
 
 
-        const currentId = category.$id;
+        const currentId = category.id;
 
-            let newIds = budgetCategoryIds;
+        let newIds = budgetCategoryIds;
 
         if (newSelection && !budgetCategoryIds.includes(currentId)) {
             newIds.push(currentId);
         }
         else if (!newSelection && budgetCategoryIds.includes(currentId)) {
-                newIds = budgetCategoryIds.filter((id) => id !== currentId);
+            newIds = budgetCategoryIds.filter((id) => id !== currentId);
         }
 
         setBudgetCategoryIds(newIds);
@@ -42,10 +39,10 @@ export default function ThemedCategory({ style, category, categories, budgetCate
     return (
         <View
             style={[
-                styles.itemTransaction,
+                styles.itemExpense,
                 style
             ]}
-         >
+        >
             <View style={{
                 flex: 1,
                 alignItems: 'flex-start',

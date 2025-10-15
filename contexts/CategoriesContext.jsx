@@ -14,13 +14,22 @@ export function CategoriesProvider({ children }) {
     const { user } = useUser();
 
     async function getCategories() {
+        let categories = [];
 
         try {
-            const { data } = supabase
+            const { data, error } = await supabase
                 .from(TABLE_ID)
                 .select();
 
-            setCategories(data);
+            if (error) {
+                console.error(error.message);
+                return [];
+            }
+            else {
+                setCategories(data);
+                categories = data;
+            }
+            return data;
         }
         catch (error) {
             console.error(error.message);
@@ -81,7 +90,7 @@ export function CategoriesProvider({ children }) {
             if (error) {
                 console.error('Insert error:', error.message);
             } else {
-                console.log('Added successfully:', data);
+                console.log('Added successfully.');
             }
         }
         catch (error) {
@@ -129,7 +138,7 @@ export function CategoriesProvider({ children }) {
     return (
         <CategoriesContext.Provider
             value={{
-                categories, getCategories, getCategoryById,
+                categories, setCategories, getCategories, getCategoryById,
                 getCategoriesByIds, addCategory, deleteCategory
             }}
         >

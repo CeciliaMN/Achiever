@@ -58,38 +58,34 @@ export function UserProvider({ children }) {
   }
 
   // --- Profile fetching ---
-/*
-  async function getProfile() {
-    try {
-      setLoading(true);
-      if (!session?.user) throw new Error('No active session!');
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select(`username, website, avatar_url`)
-        .eq('id', session.user.id)
-        .single();
-
-      if (error) throw error;
-      setProfile(data);
-    } catch (err) {
-      console.error('Profile fetch error:', err.message);
-    } finally {
-      setLoading(false);
+  /*
+    async function getProfile() {
+      try {
+        setLoading(true);
+        if (!session?.user) throw new Error('No active session!');
+  
+        const { data, error } = await supabase
+          .from('profiles')
+          .select(`username, website, avatar_url`)
+          .eq('id', session.user.id)
+          .single();
+  
+        if (error) throw error;
+        setProfile(data);
+      } catch (err) {
+        console.error('Profile fetch error:', err.message);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
-*/
+  */
   // --- Session handling ---
 
   useEffect(() => {
     const initAuth = async () => {
-      // 1️⃣ Restaure la session actuelle depuis AsyncStorage
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
 
       if (session) {
-        console.log('✅ Session restaurée:', session.user.email);
         setSession(session);
         setUser(session.user);
       } else {
@@ -98,21 +94,16 @@ export function UserProvider({ children }) {
 
       setAuthChecked(true);
 
-      // 2️⃣ Écoute les changements d’état (connexion/déconnexion)
-      const { data: subscription } = supabase.auth.onAuthStateChange(
-        (_event, session) => {
-          console.log('🔄 Auth event:', _event);
-          setSession(session);
-          setUser(session?.user ?? null);
-        }
-      );
+      const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+      });
 
       return () => subscription.subscription.unsubscribe();
     };
 
     initAuth();
 
-    // 3️⃣ Écoute les liens profonds (utile pour liens de confirmation)
     const urlListener = Linking.addEventListener('url', (event) => {
       console.log('📩 App ouverte avec lien:', event.url);
     });

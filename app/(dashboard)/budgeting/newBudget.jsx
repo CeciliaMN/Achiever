@@ -25,7 +25,7 @@ export default function NewBudget() {
     const router = useRouter();
 
     const { addBudget } = useBudgets();
-    const { categories } = useCategories();
+    const { categories, getCategories } = useCategories();
 
     const currentDate = new Date();
     const month = currentDate.getMonth();
@@ -85,6 +85,14 @@ export default function NewBudget() {
     }
 
     useEffect(() => {
+        async function loadCategories() {
+            return await getCategories(); 
+        }
+        loadCategories()
+            .then(data => console.log('Fetched categories:', data));
+    }, []);
+
+    useEffect(() => {
         if (!categories || categories.length === 0) return;
 
         // UPDATE BUDGET TOTAL AMOUNT
@@ -98,7 +106,6 @@ export default function NewBudget() {
         setAmount(newAmount);
     }, [categories, budgetCategoryIds]);
 
-    // console.log('Categories in newBudget page: ', categories);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -121,7 +128,6 @@ export default function NewBudget() {
                         }
                     ]}
                 >
-
 
                     <DateTimePicker
                         isVisible={isDatePickerVisible}
@@ -153,7 +159,7 @@ export default function NewBudget() {
                         style={[styles.list]}>
                         <FlatList
                             data={categories}
-                            keyExtractor={(item) => item.$id}
+                            keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
                                 <Pressable
                                     onLongPress={() => {
