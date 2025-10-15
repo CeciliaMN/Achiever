@@ -6,7 +6,7 @@ import UseAppStyles from "../../components/UseAppStyles";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { UserContext, UserProvider } from "../../contexts/SupabaseUserContext";
 import { UserOnly } from "../../components/auth/UserOnly";
-import { TransactionsProvider } from "../../contexts/TransactionsContext";
+import { ExpensesProvider } from "../../contexts/ExpensesContext";
 
 export default function DashboardLayout() {
     const colorScheme = useColorScheme();
@@ -18,7 +18,7 @@ export default function DashboardLayout() {
     return (
         <UserProvider>
             <UserOnly>
-                <TransactionsProvider>
+                <ExpensesProvider>
                     <SafeAreaProvider>
                         <Tabs screenOptions={{
                             headerStyle: { backgroundColor: theme.navBackground },
@@ -80,7 +80,7 @@ export default function DashboardLayout() {
                         </Tabs>
 
                     </SafeAreaProvider>
-                </TransactionsProvider>
+                </ExpensesProvider>
             </UserOnly>
         </UserProvider>
     )

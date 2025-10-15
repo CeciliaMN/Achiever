@@ -3,7 +3,7 @@ import { Colors } from "../../../../constants/Colors";
 import UseAppStyles from "../../../../components/UseAppStyles";
 import { useUser } from "../../../../hooks/useUser";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCategories } from "../../../../hooks/useCategories";
 import ThemedView from "../../../../components/ThemedView";
 import ThemedTextInput from "../../../../components/ThemedTextInput";
@@ -12,6 +12,7 @@ import ThemedButton from "../../../../components/ThemedButton";
 import ThemedLink from "../../../../components/ThemedLink";
 import ThemedDropDown from "../../../../components/ThemedDropDown";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import { supabase } from "../../../../lib/supabase";
 
 export default function NewCategory() {
     const colorScheme = useColorScheme();
@@ -23,23 +24,24 @@ export default function NewCategory() {
     const router = useRouter();
 
     const [description, setDescription] = useState('');
-    const [categoryTheme, setCategoryTheme] = useState(null);
+    const [categoryGroup, setCategoryGroup] = useState(null);
     const [items, setItems] = useState([
-        { label: "Fixed Cost", value: "fixed_costs" },
-        { label: "Investment", value: "investments" },
-        { label: "Savings Goal", value: "savings_goals" },
-        { label: "Guilt-Free Spending", value: "guilt_free_spending" }
+        { label: "Fixed Cost", value: "Fixed Costs" },
+        { label: "Investment", value: "Investments" },
+        { label: "Savings Goal", value: "Savings Goals" },
+        { label: "Guilt-Free Spending", value: "Guilt-Free Spending" }
     ]);
     const [amount, setAmount] = useState(0.0);
     const [loading, setLoading] = useState(false);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
+    const { getProfile, session } = useUser();
     const { addCategory } = useCategories();
 
     function resetFields() {
-        setDescription('');
-        setCategoryTheme(null);
-        setAmount(0.0);
+        setDescription(null)
+        setCategoryGroup(null);
+        setAmount(null);
     }
 
     function showDatePicker() {
@@ -49,14 +51,14 @@ export default function NewCategory() {
     async function add() {
         // TODO: add transaction to database
         // TODO: success message 
-        console.log('Theme : ', categoryTheme);
 
-        if (!amount || !categoryTheme || !description.trim()) {
+
+        if (!amount || !categoryGroup || !description.trim()) {
             return;
         }
 
         setLoading(true);
-        await addCategory({ description, categoryTheme, amount });
+        await addCategory(user.id, { description, categoryGroup, amount });
 
         resetFields();
         setLoading(false);
@@ -67,6 +69,9 @@ export default function NewCategory() {
         resetFields();
         router.replace('/budgeting/newBudget');
     }
+
+    //console.log('User ID (user.id):', user.id);
+    //console.log('User ID (auth.uid()):', session);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -96,18 +101,18 @@ export default function NewCategory() {
                     <Spacer height={15} />
 
                     <ThemedDropDown
-                        placeholder='Theme'
+                        placeholder='Group'
                         items={items}
                         setItems={setItems}
-                        value={categoryTheme}
-                        setValue={setCategoryTheme}
+                        value={categoryGroup}
+                        setValue={setCategoryGroup}
                     />
                     <Spacer height={15} />
 
                     <ThemedTextInput
                         placeholder='Amount'
                         onChangeText={setAmount}
-                        value={amount}
+                        value={!isNaN(amount) && amount ? amount.toString() : ''}
                         keyboardType='decimal-pad'
                         onBlur={() => setAmount(parseFloat(amount).toFixed(2))}
                     />

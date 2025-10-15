@@ -7,7 +7,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { UserProvider } from "../../../contexts/SupabaseUserContext";
 import { UserOnly } from "../../../components/auth/UserOnly";
 import { BudgetsProvider } from "../../../contexts/BudgetsContext";
-import { TransactionsProvider } from "../../../contexts/TransactionsContext";
+import { ExpensesProvider } from "../../../contexts/ExpensesContext";
 import { CategoriesProvider } from "../../../contexts/CategoriesContext";
 
 export default function TrackingLayout() {
@@ -20,7 +20,7 @@ export default function TrackingLayout() {
     return (
         <UserProvider>
             <UserOnly>
-                <TransactionsProvider>
+                <ExpensesProvider>
                     <BudgetsProvider>
                         <CategoriesProvider>
                             <SafeAreaProvider>
@@ -41,7 +41,7 @@ export default function TrackingLayout() {
                             </SafeAreaProvider>
                         </CategoriesProvider>
                     </BudgetsProvider>
-                </TransactionsProvider>
+                </ExpensesProvider>
             </UserOnly>
         </UserProvider>
     )

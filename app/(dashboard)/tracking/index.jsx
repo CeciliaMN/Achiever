@@ -9,8 +9,8 @@ import ThemedButton from "../../../components/ThemedButton";
 import { useUser } from "../../../hooks/useUser";
 import ThemedLink from "../../../components/ThemedLink";
 import { useEffect, useState } from "react";
-import { useTransactions } from "../../../hooks/useTransactions";
-import ThemedTransaction from "../../../components/lists/ThemedTransaction";
+import { useExpenses } from "../../../hooks/useExpenses";
+import ThemedExpense from "../../../components/lists/ThemedExpense";
 import { Colors } from "../../../constants/Colors";
 
 export default function Tracking() {
@@ -20,10 +20,10 @@ export default function Tracking() {
 
     const { user, signOut, authChecked } = useUser();
     const router = useRouter();
-    const { transactions } = useTransactions();
+    const { expenses } = useExpenses();
 
     function goToNew() {
-        router.replace('/tracking/newTransaction');
+        router.replace('/tracking/newExpense');
     }
 
     return (
@@ -49,30 +49,30 @@ export default function Tracking() {
                         flexShrink: 0,
                         alignSelf: 'flex-start',
                         paddingHorizontal: 10
-                    }} title={true}>Transactions</ThemedText>
+                    }} title={true}>Expenses</ThemedText>
             </View>
 
             {
-                transactions.documents && transactions.documents.length > 0 ?
-                
+                expenses && expenses.length > 0 ?
+
                     <View
                         style={[styles.list]}>
                         <FlatList
-                            data={transactions.documents}
+                            data={expenses.documents}
                             keyExtractor={(item) => item.$id}
                             renderItem={({ item }) => (
                                 <Pressable onPress={() => {
                                     router.push(`/tracking/${item.$id}`);
                                 }}
                                 >
-                                    <ThemedTransaction transaction={item} />
+                                    <ThemedExpense Expense={item} />
                                 </Pressable>
                             )}
                         />
                     </View> :
 
                     <ThemedView>
-                        <ThemedText>No transactions to show.</ThemedText>
+                        <ThemedText>No expenses to show.</ThemedText>
                     </ThemedView>
             }
 

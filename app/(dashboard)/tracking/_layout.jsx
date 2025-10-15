@@ -6,7 +6,7 @@ import UseAppStyles from "../../../components/UseAppStyles";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { UserProvider } from "../../../contexts/SupabaseUserContext";
 import { UserOnly } from "../../../components/auth/UserOnly";
-import { TransactionsProvider } from "../../../contexts/TransactionsContext";
+import { ExpensesProvider } from "../../../contexts/ExpensesContext";
 import { CategoriesProvider } from "../../../contexts/CategoriesContext";
 
 export default function TrackingLayout() {
@@ -20,7 +20,7 @@ console.log('LAYOUT TRACKING');
         <UserProvider>
             <UserOnly>
                 <CategoriesProvider>
-                    <TransactionsProvider>
+                    <ExpensesProvider>
                         <SafeAreaProvider>
 
                             <Stack screenOptions={{
@@ -29,12 +29,12 @@ console.log('LAYOUT TRACKING');
                                 headerShown: true
                             }}>
                                 <Stack.Screen name="index" options={{ title: 'Tracking', headerShown: false }} />
-                                <Stack.Screen name="newTransaction" options={{ title: 'New Transaction' }} />
-                                <Stack.Screen name="[id]" options={{ title: 'Transaction Details', href: null }} />
+                                <Stack.Screen name="newExpense" options={{ title: 'New Expense' }} />
+                                <Stack.Screen name="[id]" options={{ title: 'Expense Details', href: null }} />
                             </Stack>
 
                         </SafeAreaProvider>
-                    </TransactionsProvider>
+                    </ExpensesProvider>
                 </CategoriesProvider>
             </UserOnly>
         </UserProvider>

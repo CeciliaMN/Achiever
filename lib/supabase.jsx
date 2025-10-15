@@ -8,10 +8,12 @@ export const APP_URL = 'https://192.168.11.228:8081'
 export const EXPO_APP_URL = 'exp://192.168.11.228:8081'
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  auth: {
-    storage: AsyncStorage,
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false
-  },
+    auth: {
+        storage: AsyncStorage,
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: false
+    }
+}, {
+    db: { schema: 'achiever_db' }
 })

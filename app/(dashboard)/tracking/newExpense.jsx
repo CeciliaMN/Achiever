@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 import ThemedTextInput from "../../../components/ThemedTextInput";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { Colors } from "../../../constants/Colors";
-import { useTransactions } from "../../../hooks/useTransactions";
+import { useExpenses } from "../../../hooks/useExpenses";
 import { useCategories } from "../../../hooks/useCategories";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import ThemedDropDown from "../../../components/ThemedDropDown";
 
-export default function NewTransaction() {
+export default function NewExpense() {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
     const datePicketBgColor = theme.uiBackground;
@@ -33,12 +33,12 @@ export default function NewTransaction() {
     const [loading, setLoading] = useState(false);
     const [categoryDescriptions, setCategoryDescriptions] = useState([]);
 
-    const { addTransaction } = useTransactions();
+    const { addExpense } = useExpenses();
     const { categories } = useCategories();
 
     function resetFields() {
-        setAmount(0.0);
-        setDescription('');
+        setAmount(null);
+        setDescription(null);
         setCategoryId(null);
     }
 
@@ -49,7 +49,7 @@ export default function NewTransaction() {
         }
 
         setLoading(true);
-        await addTransaction({ date, amount, description, categoryId });
+        await addExpense({ date, amount, description, categoryId });
         resetFields();
         setLoading(false);
     }
@@ -65,7 +65,7 @@ export default function NewTransaction() {
 
     useEffect(() => {
         // GET CATEGORY DESCRIPTIONS
-        if (categories ) {
+        if (categories) {
             let newCategoryDescriptions = categories.documents.map((categ) => {
                 const desc = categ.description;
                 const val = categ.$id;
@@ -105,7 +105,7 @@ export default function NewTransaction() {
                         <ThemedTextInput
                             placeholder='Amount'
                             onChangeText={setAmount}
-                            value={!isNaN(amount) ? amount.toString() : ''}
+                            value={!isNaN(amount) && amount ? amount.toString() : ''}
                             keyboardType='decimal-pad'
                             onBlur={() => setAmount(parseFloat(amount).toFixed(2))}
                             style={{

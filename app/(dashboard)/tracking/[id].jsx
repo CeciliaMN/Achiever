@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ThemedText from "../../../components/ThemedText";
 import ThemedView from "../../../components/ThemedView";
 import { router, useLocalSearchParams } from "expo-router";
-import { useTransactions } from "../../../hooks/useTransactions";
+import { useExpenses } from "../../../hooks/useExpenses";
 import Spacer from "../../../components/Spacer";
 import ThemedLoader from "../../../components/ThemedLoader";
 import { Pressable, useColorScheme, View } from "react-native";

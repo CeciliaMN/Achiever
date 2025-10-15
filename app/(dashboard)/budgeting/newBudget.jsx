@@ -85,10 +85,10 @@ export default function NewBudget() {
     }
 
     useEffect(() => {
-        if (!categories || categories.documents.length === 0) return;
+        if (!categories || categories.length === 0) return;
 
         // UPDATE BUDGET TOTAL AMOUNT
-        let newAmount = categories.documents.reduce((sum, currentCategory) => {
+        let newAmount = categories.reduce((sum, currentCategory) => {
             let newSum = sum;
             if (budgetCategoryIds.includes(currentCategory.$id)) {
                 newSum += currentCategory.amount;
@@ -97,6 +97,8 @@ export default function NewBudget() {
         }, 0);
         setAmount(newAmount);
     }, [categories, budgetCategoryIds]);
+
+    // console.log('Categories in newBudget page: ', categories);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -150,7 +152,7 @@ export default function NewBudget() {
                     <View
                         style={[styles.list]}>
                         <FlatList
-                            data={categories.documents}
+                            data={categories}
                             keyExtractor={(item) => item.$id}
                             renderItem={({ item }) => (
                                 <Pressable

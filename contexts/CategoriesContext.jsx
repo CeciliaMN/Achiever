@@ -2,8 +2,8 @@ import { createContext, useEffect, useState, useTransition } from "react";
 import { databases } from "../lib/appwrite";
 import { ID, Permission, Query, Role } from "react-native-appwrite";
 import { useUser } from "../hooks/useUser";
+import { supabase } from "../lib/supabase";
 
-const DATABASE_ID = '68e691f7002d4c5bd0a7';
 const TABLE_ID = 'categories';
 
 export const CategoriesContext = createContext();
@@ -14,16 +14,13 @@ export function CategoriesProvider({ children }) {
     const { user } = useUser();
 
     async function getCategories() {
-        try {
-            const categories = await databases.listDocuments(
-                DATABASE_ID,
-                TABLE_ID,
-                [
-                    Query.equal('userId', user.id)
-                ]
-            );
 
-            setCategories(categories);
+        try {
+            const { data } = supabase
+                .from(TABLE_ID)
+                .select();
+
+            setCategories(data);
         }
         catch (error) {
             console.error(error.message);
@@ -32,35 +29,32 @@ export function CategoriesProvider({ children }) {
 
     async function getCategoryById(id) {
         try {
-            const category = await databases.getDocument(
-                DATABASE_ID,
-                TABLE_ID,
-                id
-            );
+            const { data } = supabase
+                .from(TABLE_ID)
+                .select('*')
+                .ep('id', id)
+                .single();
 
-            console.log('Get category by ID: ', category);
-            return category;
+            return data;
         }
         catch (error) {
             console.error(error.message);
         }
     }
 
-    async function getCategoriesByIds(categoryIds) {
-        if (!categoryIds || categoryIds.length === 0) return [];
+    async function getCategoriesByIds(categoryGroups) {
+        if (!categoryGroups || categoryGroups.length === 0) return [];
 
         let categories = [];
 
         try {
-            const response = await databases.listDocuments(
-                DATABASE_ID,
-                TABLE_ID,
-                [
-                    Query.equal("$id", categoryIds) // 👈 filtre sur les IDs contenus dans ta liste
-                ]
-            );
+            const { data } = supabase
+                .from(TABLE_ID)
+                .select('*')
+                .ep('id', categoryGroups)
+                .single();
 
-            categories = response.documents; // 👈 liste complète des objets correspondants
+            categories = data; // 👈 liste complète des objets correspondants
         } catch (error) {
             console.error("Erreur lors de la récupération des catégories :", error);
         }
@@ -68,31 +62,43 @@ export function CategoriesProvider({ children }) {
         return categories;
     }
 
-    async function addCategory(data) {
+    async function addCategory(userId, { description, categoryGroup, amount }) {
         try {
-            console.log(data);
-            const date = data.date;
-            const description = data.description;
-            const theme = data.categoryTheme;
-            const amount = parseFloat(data.amount);
+            console.log('userId : ', userId);
+            console.log('Description : ', description);
+            console.log('Group : ', categoryGroup);
+            console.log('Amount : ', amount);
 
-            const newCategory = await databases.createDocument(
-                DATABASE_ID,
-                TABLE_ID,
-                ID.unique(),
-                {
-                    userId: user.$id,
-                    date: date,
+            const { data, error } = await supabase
+                .from(TABLE_ID)
+                .insert({
+                    user_id: userId,
                     description: description,
-                    theme: theme,
+                    category_group: categoryGroup,
                     amount: amount
-                },
-                [
-                    Permission.read(Role.user(user.$id)),
-                    Permission.update(Role.user(user.$id)),
-                    Permission.delete(Role.user(user.$id))
-                ]
-            )
+                });
+
+            if (error) {
+                console.error('Insert error:', error.message);
+            } else {
+                console.log('Added successfully:', data);
+            }
+        }
+        catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    async function updateCategory(id, { description, categoryGroup, amount }) {
+        try {
+            const { error } = await supabase
+                .from(TABLE_ID)
+                .update({
+                    description: description,
+                    category_group: categoryGroup,
+                    amount: amount
+                })
+                .eq({ 'id': id });
         }
         catch (error) {
             console.error(error.message);
@@ -101,13 +107,10 @@ export function CategoriesProvider({ children }) {
 
     async function deleteCategory(id) {
         try {
-            const category = await databases.deleteDocument(
-                DATABASE_ID,
-                TABLE_ID,
-                id
-            );
-
-            return category;
+            const response = await supabase
+                .from(TABLE_ID)
+                .delete()
+                .eq('id', id)
         }
         catch (error) {
             console.error(error.message);

@@ -5,17 +5,17 @@ import ThemedText from "../ThemedText";
 import { useCategories } from "../../hooks/useCategories";
 import { useEffect, useState } from "react";
 
-export default function ThemedTransaction({ style, transaction, ...props }) {
+export default function ThemedExpense({ style, expense, ...props }) {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme] ?? Colors.light;
     const styles = UseAppStyles();
 
-    const date = (new Date(transaction.date)).toLocaleDateString();
+    const date = (new Date(expense.date)).toLocaleDateString();
 
     return (
         <View
             style={[
-                styles.itemTransaction,
+                styles.itemExpense,
                 style
             ]}
         >
@@ -24,7 +24,7 @@ export default function ThemedTransaction({ style, transaction, ...props }) {
                 alignItems: 'flex-start',
                 paddingStart: '10'
             }}>
-                <ThemedText title={true}>{transaction.description}</ThemedText>
+                <ThemedText title={true}>{expense.description}</ThemedText>
             </View>
 
             <View style={{
@@ -32,7 +32,7 @@ export default function ThemedTransaction({ style, transaction, ...props }) {
                 alignItems: 'flex-end',
                 paddingEnd: '10'
             }}>
-                <ThemedText>{parseFloat(transaction.amount).toFixed(2)}$</ThemedText>
+                <ThemedText>{parseFloat(expense.amount).toFixed(2)}$</ThemedText>
                 <ThemedText>{date}</ThemedText>
             </View>
         </View>

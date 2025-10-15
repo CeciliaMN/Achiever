@@ -75,7 +75,7 @@ export default function UseAppStyles() {
             borderBottomWidth: 2
         },
 
-        itemTransaction: {
+        itemExpense: {
             flex: 1,
             flexDirection: 'row',
             alignSelf: 'center',

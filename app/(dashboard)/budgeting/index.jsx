@@ -9,7 +9,7 @@ import ThemedButton from "../../../components/ThemedButton";
 import { useUser } from "../../../hooks/useUser";
 import ThemedLink from "../../../components/ThemedLink";
 import { useEffect, useState } from "react";
-import ThemedTransaction from "../../../components/lists/ThemedTransaction";
+import ThemedExpense from "../../../components/lists/ThemedExpense";
 import { Colors } from "../../../constants/Colors";
 import { useBudgets } from "../../../hooks/useBudgets";
 import ThemedBudget from "../../../components/lists/ThemedBudget";
